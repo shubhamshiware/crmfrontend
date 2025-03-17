@@ -1,0 +1,9 @@
+{
+  "Signup": "/signup",
+  "Login": "/Login",
+  "Dashboard ": "Dashboard ",
+
+  "Orders": "/orders",
+
+  "Clients": "/clients"
+}
