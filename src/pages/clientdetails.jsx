@@ -78,7 +78,7 @@ const ClientDetails = () => {
       client.leadsgenerated
     );
     const updatedFollowers = prompt(
-      "Enter new number of followers:",
+      "Enter leades got converted:",
       client.followers
     );
     const updatedViews = prompt("Enter new number of views:", client.views);

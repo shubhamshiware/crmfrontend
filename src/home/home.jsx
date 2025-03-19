@@ -41,3 +41,12 @@ const Fetch = () => {
 };
 
 export default Fetch;
+
+//home page do have an api that contains client data but it useless component can be removed if needs to be .
+//three commands which comes in while pushing the code in repo
+//git add .
+//git commit -m "Updated login API and fixed mobile compatibility"
+//git push origin main
+//if it is not happening with upper command then
+//git pull origin main --rebase
+//then git push origin main
