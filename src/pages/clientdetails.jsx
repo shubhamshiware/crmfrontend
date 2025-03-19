@@ -43,7 +43,7 @@ const ClientDetails = () => {
   const data = [
     { name: "Leads generated", value: newLeads },
     { name: "newfollowers", value: newFollowers },
-    { name: "Views increased in %", value: newViews },
+    { name: " Leads Converted in %", value: newViews },
     { name: "Sales", value: 100 },
   ];
 
@@ -401,7 +401,7 @@ const ClientDetails = () => {
               Leads Generated: {client.leadsgenerated}
             </Typography>
             <Typography variant="body1" fontWeight="bold">
-              Views Increased: {client.views}%
+              Leads Converted: {client.views}%
             </Typography>
             <Typography variant="body1" fontWeight="bold">
               Followers Increased: {client.followers}%
