@@ -64,7 +64,9 @@ const TaskPage = () => {
 
     const fetchTasks = async () => {
       try {
-        const response = await axios.get("http://localhost:8089/content/");
+        const response = await axios.get(
+          "https://crmback-tjvw.onrender.com/content/"
+        );
         const allTasks = response.data?.data || [];
 
         const userTasks = allTasks.filter((task) => task.userId === userId);
@@ -117,7 +119,7 @@ const TaskPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8089/content/content",
+        "https://crmback-tjvw.onrender.com/content/content",
         {
           userId,
           update: newTask,
@@ -157,7 +159,7 @@ const TaskPage = () => {
 
       // Send request to API
       const response = await axios.put(
-        "http://localhost:8089/content/edit",
+        "https://crmback-tjvw.onrender.com/content/edit",
         updatedPayload
       );
 
@@ -181,7 +183,9 @@ const TaskPage = () => {
     if (userRole !== "admin") return;
 
     try {
-      await axios.delete(`http://localhost:8089/content/content/${id}`);
+      await axios.delete(
+        `https://crmback-tjvw.onrender.com/content/content/${id}`
+      );
       setTasks(tasks.filter((task) => task._id !== id));
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -199,7 +203,7 @@ const TaskPage = () => {
     if (userRole !== "admin" || !editText.trim()) return;
 
     try {
-      await axios.put("http://localhost:8089/content/edit", {
+      await axios.put("https://crmback-tjvw.onrender.com/content/edit", {
         _id: id,
         update: editText,
       });
