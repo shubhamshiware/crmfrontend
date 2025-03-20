@@ -53,7 +53,9 @@ const ClientDetails = () => {
     const fetchClientDetails = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:8089/client/${id}`);
+        const response = await fetch(
+          `https://crmback-tjvw.onrender.com/client/${id}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch client details");
         }
@@ -101,7 +103,7 @@ const ClientDetails = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8089/client/${client._id}/leads`,
+        `https://crmback-tjvw.onrender.com/${client._id}/leads`,
         {
           method: "PUT",
           headers: {
@@ -156,7 +158,7 @@ const ClientDetails = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8089/client/${id}/update-package`,
+        `https://crmback-tjvw.onrender.com/${id}/update-package`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -179,7 +181,7 @@ const ClientDetails = () => {
   const handleStatusChange = async (type, itemIndex, isCompleted) => {
     try {
       const response = await fetch(
-        `http://localhost:8089/client/${id}/update-status`,
+        `https://crmback-tjvw.onrender.com/${id}/update-status`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

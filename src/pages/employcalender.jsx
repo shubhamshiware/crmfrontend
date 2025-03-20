@@ -21,7 +21,7 @@ const Calendarone = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8089/task/tasks")
+    fetch("https://crmback-tjvw.onrender.com/task/tasks")
       .then((response) => response.json())
       .then((data) => {
         const events = Array.isArray(data.data) ? data.data : [];
@@ -46,7 +46,7 @@ const Calendarone = () => {
     if (title) {
       const newEvent = { title, start, end, allDay: false };
 
-      fetch("http://localhost:8089/task/task", {
+      fetch("https://crmback-tjvw.onrender.com/task/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const Calendarone = () => {
     );
     if (!confirmDelete) return;
 
-    fetch("http://localhost:8089/task/delete", {
+    fetch("https://crmback-tjvw.onrender.com/task/delete", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

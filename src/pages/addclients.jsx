@@ -35,12 +35,15 @@ const Addclients = () => {
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        const response = await fetch("http://localhost:8089/client/clients", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://crmback-tjvw.onrender.com/client/clients",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch clients");
         }
@@ -90,13 +93,16 @@ const Addclients = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:8089/client/clients", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newClient),
-      });
+      const response = await fetch(
+        "https://crmback-tjvw.onrender.com/client/clients",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newClient),
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to add client");
       }

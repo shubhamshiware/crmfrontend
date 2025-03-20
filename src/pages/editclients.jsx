@@ -18,12 +18,15 @@ const Editclient = () => {
   useEffect(() => {
     const fetchClient = async () => {
       try {
-        const response = await fetch(`http://localhost:8089/client/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `https://crmback-tjvw.onrender.com/client/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch client details");
@@ -43,13 +46,16 @@ const Editclient = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("http://localhost:8089/client/edit", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: client._id, ...client }), // Include `_id` in the payload
-      });
+      const response = await fetch(
+        "https://crmback-tjvw.onrender.com/client/edit",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: client._id, ...client }), // Include `_id` in the payload
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update client details");

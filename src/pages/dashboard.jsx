@@ -24,10 +24,9 @@ const Dashboard = () => {
       }
     }
   }, []);
-  // console.log(token)
 
   useEffect(() => {
-    fetch("http://localhost:8089/client/clients")
+    fetch("https://crmback-tjvw.onrender.com/client/clients")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

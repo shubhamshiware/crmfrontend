@@ -23,7 +23,9 @@ const AdminDashboard = () => {
   // Fetch users from the API
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:8089/auth/");
+      const response = await axios.get(
+        "https://crmback-tjvw.onrender.com/auth/"
+      );
       setUsers(response.data.data); // Access the correct array
       // console.log(response.data.data, "ress");
     } catch (error) {
@@ -40,7 +42,7 @@ const AdminDashboard = () => {
     const updatedRole = event.target.value;
 
     try {
-      await axios.put("http://localhost:8089/auth/edit", {
+      await axios.put("https://crmback-tjvw.onrender.com/auth/edit", {
         id: user._id,
         role: updatedRole,
       });

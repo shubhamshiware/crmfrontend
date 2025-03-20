@@ -32,12 +32,15 @@ const Clients = () => {
   const fetchClients = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8089/client/clients", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        "https://crmback-tjvw.onrender.com/client/clients",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch clients");
@@ -55,14 +58,17 @@ const Clients = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this client?")) {
       try {
-        const response = await fetch("http://localhost:8089/client/delete", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ id }),
-        });
+        const response = await fetch(
+          "https://crmback-tjvw.onrender.com/client/delete",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({ id }),
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to delete client");
         }

@@ -21,7 +21,7 @@ const Calendar = () => {
 
   // Function to Fetch Events from Backend
   const fetchEvents = () => {
-    fetch("http://localhost:8089/task/tasks")
+    fetch("https://crmback-tjvw.onrender.com/task/tasks")
       .then((response) => response.json())
       .then((data) => {
         const formattedEvents = (Array.isArray(data.data) ? data.data : []).map(
@@ -53,7 +53,7 @@ const Calendar = () => {
     if (title) {
       const newEvent = { title, start, end, allDay: false };
 
-      fetch("http://localhost:8089/task/task", {
+      fetch("https://crmback-tjvw.onrender.com/task/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const Calendar = () => {
     );
     if (!confirmDelete) return;
 
-    fetch("http://localhost:8089/task/delete", {
+    fetch("https://crmback-tjvw.onrender.com/task/delete", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

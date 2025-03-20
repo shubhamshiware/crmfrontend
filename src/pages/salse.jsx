@@ -49,7 +49,7 @@ const Salsepage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8089/salse/")
+      .get("https://crmback-tjvw.onrender.com/salse/")
       .then((response) => {
         const fetchedData = response.data.data[0];
         // console.log(fetchedData, "fetched data");
@@ -99,11 +99,14 @@ const Salsepage = () => {
 
       console.log("Payload sent to backend:", payload);
 
-      const response = await fetch("http://localhost:8089/salse/edit", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        "https://crmback-tjvw.onrender.com/salse/edit",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
       const result = await response.json();
       console.log("Result from backend:", result);

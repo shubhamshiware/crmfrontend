@@ -55,14 +55,16 @@ const ProfilePage = () => {
 
         // Fetch user details
         const response = await axios.get(
-          `http://localhost:8089/user/${loggedInUserId}`,
+          `https://crmback-tjvw.onrender.com/user/${loggedInUserId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
         console.log(response, "datas");
         // Fetch all todos
-        const fetchTasks = await axios.get("http://localhost:8089/content/");
+        const fetchTasks = await axios.get(
+          "https://crmback-tjvw.onrender.com/content/"
+        );
         const allTasks = fetchTasks.data?.data || []; // Update to use `data`
 
         // console.log("All Tasks datas", allTasks);
@@ -121,7 +123,7 @@ const ProfilePage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8089/content/content",
+        "https://crmback-tjvw.onrender.com/content/content",
         {
           userId: userId, // Send userId (fetch from auth context or state)
           update: newTask,
@@ -170,7 +172,7 @@ const ProfilePage = () => {
 
       // Send request to API
       const response = await axios.put(
-        "http://localhost:8089/content/edit",
+        "https://crmback-tjvw.onrender.com/content/edit",
         updatedPayload
       );
 
@@ -190,7 +192,9 @@ const ProfilePage = () => {
 
   const handleDeleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:8089/content/content/${id}`);
+      await axios.delete(
+        `https://crmback-tjvw.onrender.com/content/content/${id}`
+      );
       setTasks(tasks.filter((task) => task._id !== id));
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -206,7 +210,7 @@ const ProfilePage = () => {
   const handleEditTask = async (index, id) => {
     if (!editText.trim()) return;
     try {
-      await axios.put("http://localhost:8089/content/edit", {
+      await axios.put("https://crmback-tjvw.onrender.com/content/edit", {
         _id: id,
         update: editText,
       });

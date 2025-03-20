@@ -28,7 +28,9 @@ const Taskssss = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:8089/auth/");
+        const response = await axios.get(
+          "https://crmback-tjvw.onrender.com/auth/"
+        );
         const users = response.data.data || [];
 
         setAuthors(users.filter((user) => user.role === "author"));
