@@ -27,7 +27,7 @@ const ClientDetails = () => {
   const [newLeads, setNewLeads] = useState();
   const [newFollowers, setNewFollowers] = useState();
   const [newViews, setViews] = useState();
-  const isPackageSet = useRef(false);
+  // const isPackageSet = useRef(false);
 
   // const leads = client.leadsgenerated;
   useEffect(() => {
@@ -58,7 +58,7 @@ const ClientDetails = () => {
           throw new Error("Failed to fetch client details");
         }
         const data = await response.json();
-        console.log(data, "client detalis");
+        // console.log(data, "client detalis");
 
         setClient(data.data);
         setPackageAmount(data.data.package);

@@ -25,7 +25,7 @@ const SignupPage = () => {
     try {
       // Make API call to submit form data
       const response = await axios.post(
-        "http://localhost:8089/auth/signup",
+        "https://crmback-tjvw.onrender.com/auth/signup",
         formData
       );
       // console.log(response);
@@ -148,3 +148,5 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
+
+//thise component has hirechy issue needs to be corected

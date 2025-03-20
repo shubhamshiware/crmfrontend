@@ -9,38 +9,41 @@ const localizer = momentLocalizer(moment);
 const Calendar = () => {
   const [events, setEvents] = useState([]);
   const [userRole, setUserRole] = useState("");
-  const [clients, setClients] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
+  // Fetch User Role on Mount
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    // console.log("Token retrived in empdash:", token);
     if (token) {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
     }
   }, []);
 
-  useEffect(() => {
+  // Function to Fetch Events from Backend
+  const fetchEvents = () => {
     fetch("http://localhost:8089/task/tasks")
       .then((response) => response.json())
       .then((data) => {
-        const events = Array.isArray(data.data) ? data.data : [];
-        const formattedEvents = events.map((event) => ({
-          id: event._id,
-          title: event.title,
-          start: new Date(event.start),
-          end: new Date(event.end),
-          allDay: event.allDay || false,
-        }));
+        const formattedEvents = (Array.isArray(data.data) ? data.data : []).map(
+          (event) => ({
+            id: event._id,
+            title: event.title,
+            start: new Date(event.start),
+            end: new Date(event.end),
+            allDay: event.allDay || false,
+          })
+        );
         setEvents(formattedEvents);
       })
       .catch((error) => console.error("Error fetching events:", error));
+  };
+
+  // Fetch Events on Mount
+  useEffect(() => {
+    fetchEvents();
   }, []);
 
-  // console.log(clients, "fetchclient");
-
+  // Handle Adding New Events
   const handleSelectSlot = ({ start, end }) => {
     if (userRole !== "author" && userRole !== "admin") {
       alert("Only authors can add events.");
@@ -58,25 +61,17 @@ const Calendar = () => {
         body: JSON.stringify(newEvent),
       })
         .then((response) => response.json())
-        .then((savedEvent) => {
-          setEvents((prevEvents) => [
-            ...prevEvents,
-            {
-              id: savedEvent._id,
-              title: savedEvent.title,
-              start: new Date(savedEvent.start),
-              end: new Date(savedEvent.end),
-              allDay: savedEvent.allDay || false,
-            },
-          ]);
+        .then(() => {
+          fetchEvents(); // Re-fetch events from backend
         })
         .catch((error) => console.error("Error saving event:", error));
     }
   };
 
+  // Handle Deleting Events
   const handleDeleteEvent = (event) => {
     if (userRole !== "author" && userRole !== "admin") {
-      alert("Only author and admin can delete events.");
+      alert("Only authors and admins can delete events.");
       return;
     }
 
@@ -94,9 +89,7 @@ const Calendar = () => {
     })
       .then((response) => {
         if (response.ok) {
-          setEvents((prevEvents) =>
-            prevEvents.filter((e) => e.id !== event.id)
-          );
+          fetchEvents(); // Re-fetch events from backend
           alert("Event deleted successfully");
         } else {
           alert("Failed to delete the event");
@@ -114,8 +107,8 @@ const Calendar = () => {
         endAccessor="end"
         style={{ height: "100%" }}
         selectable={userRole === "author" || userRole === "admin"}
-        onSelectSlot={handleSelectSlot} // Ensure this function is defined
-        onSelectEvent={handleDeleteEvent} // Ensure this function is defined
+        onSelectSlot={handleSelectSlot}
+        onSelectEvent={handleDeleteEvent}
       />
     </div>
   );
