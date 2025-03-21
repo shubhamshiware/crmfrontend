@@ -139,6 +139,7 @@ const ClientDetails = () => {
   const handlePaymentChange = (event) => {
     setPaymentAmount(event.target.value);
   };
+
   const handleUpdatePackage = async (operation) => {
     if (!paymentAmount || isNaN(paymentAmount) || paymentAmount <= 0) {
       alert("Enter a valid payment amount!");
@@ -156,6 +157,9 @@ const ClientDetails = () => {
       newAmount = packageAmount + parseFloat(paymentAmount);
     }
 
+    // ✅ **Update UI first for instant change**
+    setPackageAmount(newAmount);
+
     try {
       const response = await fetch(
         `https://crmback-tjvw.onrender.com/client/${id}/update-package`,
@@ -170,11 +174,13 @@ const ClientDetails = () => {
         throw new Error("Failed to update package amount");
       }
 
-      setPackageAmount(newAmount);
       setPaymentAmount("");
     } catch (error) {
       console.error("Error updating package amount:", error);
       alert("Error updating package amount");
+
+      // ❌ **Revert UI change if API fails**
+      setPackageAmount(packageAmount);
     }
   };
 
