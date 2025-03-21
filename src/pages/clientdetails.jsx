@@ -103,7 +103,7 @@ const ClientDetails = () => {
 
     try {
       const response = await fetch(
-        `https://crmback-tjvw.onrender.com/${client._id}/leads`,
+        `https://crmback-tjvw.onrender.com/client/${client._id}/leads`,
         {
           method: "PUT",
           headers: {
@@ -158,7 +158,7 @@ const ClientDetails = () => {
 
     try {
       const response = await fetch(
-        `https://crmback-tjvw.onrender.com/${id}/update-package`,
+        `https://crmback-tjvw.onrender.com/client/${id}/update-package`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -181,7 +181,7 @@ const ClientDetails = () => {
   const handleStatusChange = async (type, itemIndex, isCompleted) => {
     try {
       const response = await fetch(
-        `https://crmback-tjvw.onrender.com/${id}/update-status`,
+        `https://crmback-tjvw.onrender.com/client/${id}/update-status`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
