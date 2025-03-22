@@ -60,7 +60,7 @@ const ProfilePage = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log(response, "datas");
+        // console.log(response, "datas");
         // Fetch all todos
         const fetchTasks = await axios.get(
           "https://crmback-tjvw.onrender.com/content/"
