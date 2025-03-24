@@ -149,9 +149,9 @@ const ClientDetails = () => {
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
-      setUser(storedUser);
+      setUser(storedUser); // Set user from localStorage
     } else {
-      fetchUserProfile();
+      fetchUserProfile(); // Fetch from API if not in localStorage
     }
   }, []);
 
@@ -161,7 +161,7 @@ const ClientDetails = () => {
         `https://crmback-tjvw.onrender.com/client/${client._id}`
       );
       setUser(res.data.user);
-      localStorage.setItem("user", JSON.stringify(res.data.user)); // Save latest profile
+      localStorage.setItem("user", JSON.stringify(res.data.user)); // Store updated user data
     } catch (error) {
       console.error("Error fetching user:", error);
     }
@@ -172,9 +172,7 @@ const ClientDetails = () => {
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("userId", client._id); // Ensure userId is passed
-
-    console.log([...formData]); // Debugging
+    formData.append("userId", client._id);
 
     try {
       const res = await axios.post(
@@ -188,8 +186,8 @@ const ClientDetails = () => {
       console.log(res.data, "Response from backend");
 
       if (res.data.success) {
-        setUser(res.data.user); // Set new user data
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // Save in local storage
+        setUser(res.data.user); // Update user state
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // Save to local storage
         alert("Profile image updated!");
       } else {
         alert("Upload failed!");
