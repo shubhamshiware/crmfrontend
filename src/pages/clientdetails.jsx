@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import axios from "axios";
 import {
   Typography,
   Box,
@@ -27,6 +28,9 @@ const ClientDetails = () => {
   const [newLeads, setNewLeads] = useState();
   const [newFollowers, setNewFollowers] = useState();
   const [newViews, setViews] = useState();
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState("");
+  const [user, setUser] = useState({});
   // const isPackageSet = useRef(false);
 
   // const leads = client.leadsgenerated;
@@ -136,6 +140,44 @@ const ClientDetails = () => {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setPreview(URL.createObjectURL(file)); // Preview image before upload
+  };
+
+  const handleUpload = async () => {
+    if (!image) return alert("Please select an image");
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const userId = client?._id; // Ensure userId is properly set
+    if (!userId) return alert("User ID is missing!");
+
+    console.log(formData, "form data");
+
+    try {
+      const res = await axios.post(
+        `https://crmback-tjvw.onrender.com/client/${userId}/upload`, // Use correct userId
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      console.log(res, "response from backend");
+      setUser(res.data.user);
+      alert("Profile image updated!");
+    } catch (error) {
+      console.error(
+        "Error uploading image:",
+        error.response?.data || error.message
+      );
+      alert("Image upload failed!");
+    }
+  };
+
   const handlePaymentChange = (event) => {
     setPaymentAmount(event.target.value);
   };
@@ -237,7 +279,11 @@ const ClientDetails = () => {
             borderRadius="8px"
           >
             <Avatar
-              src={"https://via.placeholder.com/150"}
+              src={
+                preview ||
+                user.profileImage ||
+                "https://via.placeholder.com/150"
+              }
               alt={client.company}
               sx={{
                 width: 120,
@@ -246,6 +292,8 @@ const ClientDetails = () => {
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
               }}
             />
+            <input type="file" onChange={handleImageChange} />
+            <button onClick={handleUpload}>Upload</button>
             <Typography variant="h5" gutterBottom>
               {client.company}
             </Typography>
