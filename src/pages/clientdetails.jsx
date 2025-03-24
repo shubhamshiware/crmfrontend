@@ -146,6 +146,27 @@ const ClientDetails = () => {
     setPreview(URL.createObjectURL(file)); // Preview image before upload
   };
 
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+    } else {
+      fetchUserProfile();
+    }
+  }, []);
+
+  const fetchUserProfile = async () => {
+    try {
+      const res = await axios.get(
+        `https://crmback-tjvw.onrender.com/client/${client._id}`
+      );
+      setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user)); // Save latest profile
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
+
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
 
@@ -153,20 +174,26 @@ const ClientDetails = () => {
     formData.append("image", image);
     formData.append("userId", client._id); // Ensure userId is passed
 
-    console.log([...formData]); // Debugging - check if userId is being sent
+    console.log([...formData]); // Debugging
 
     try {
       const res = await axios.post(
-        `https://crmback-tjvw.onrender.com/client/${client._id}/upload`, // Ensure correct ID
+        `https://crmback-tjvw.onrender.com/client/${client._id}/upload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      console.log(res.data, "response from backend");
-      setUser(res.data.user);
-      alert("Profile image updated!");
+      console.log(res.data, "Response from backend");
+
+      if (res.data.success) {
+        setUser(res.data.user); // Set new user data
+        localStorage.setItem("user", JSON.stringify(res.data.user)); // Save in local storage
+        alert("Profile image updated!");
+      } else {
+        alert("Upload failed!");
+      }
     } catch (error) {
       console.error(
         "Error uploading image:",
