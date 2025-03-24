@@ -151,22 +151,20 @@ const ClientDetails = () => {
 
     const formData = new FormData();
     formData.append("image", image);
+    formData.append("userId", client._id); // Ensure userId is passed
 
-    const userId = client?._id; // Ensure userId is properly set
-    if (!userId) return alert("User ID is missing!");
-
-    console.log(formData, "form data");
+    console.log([...formData]); // Debugging - check if userId is being sent
 
     try {
       const res = await axios.post(
-        `https://crmback-tjvw.onrender.com/client/${userId}/upload`, // Use correct userId
+        `https://crmback-tjvw.onrender.com/client/${client._id}/upload`, // Ensure correct ID
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      console.log(res, "response from backend");
+      console.log(res.data, "response from backend");
       setUser(res.data.user);
       alert("Profile image updated!");
     } catch (error) {
