@@ -31,6 +31,7 @@ const ClientDetails = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [user, setUser] = useState({});
+  const [profileImage, setProfileImage] = useState(null);
 
   // const isPackageSet = useRef(false);
 
@@ -162,8 +163,8 @@ const ClientDetails = () => {
 
       console.log(res.data, "Fetched client data");
 
-      if (res.data?.profileImage) {
-        setUser(res.data.profileImage); // ✅ Set the fetched image URL
+      if (res.data?.success && res.data.data?.profileImage) {
+        setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
       }
     } catch (error) {
       console.error(
@@ -173,7 +174,7 @@ const ClientDetails = () => {
     }
   };
 
-  // ✅ Handle Image Upload to Cloudinary
+  // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
     console.log(client._id, "Uploading for client ID:");
@@ -194,7 +195,7 @@ const ClientDetails = () => {
       console.log("Response from backend:", res.data);
 
       if (res.data.success) {
-        setUser(res.data.user.profileImage); // ✅ Update image after upload
+        setProfileImage(res.data.user.profileImage); // ✅ Update image after upload
         alert("Profile image updated!");
       } else {
         alert("Upload failed!");
