@@ -265,25 +265,25 @@ const ProfilePage = () => {
   // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
-    console.log(userId, "Uploading for client ID:");
+    console.log(userId, "Uploading:");
     // const decodedToken = jwtDecode(token);
     // const loggedInUserId = decodedToken?.id;
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("userId", userId);
+    formData.append("usersd", userId);
 
     try {
       const res = await axios.post(
-        `https://crmback-tjvw.onrender.com/user/${userId}/imgupload`,
+        `https://crmback-tjvw.onrender.com/user/imgupload/${userId}`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
+      console.log(res);
       if (res.data.success) {
-        setProfileImage(res.data.user.profileImage); // ✅ Update image after upload
+        setProfileImage(res.data.data); // ✅ Update image after upload
         alert("Profile image updated!");
       } else {
         alert("Upload failed!");
