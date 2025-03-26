@@ -310,11 +310,7 @@ const ClientDetails = () => {
             borderRadius="8px"
           >
             <Avatar
-              src={
-                preview ||
-                user.profileImage ||
-                "https://via.placeholder.com/150"
-              }
+              src={preview || profileImage || "https://via.placeholder.com/150"}
               alt={client.company}
               sx={{
                 width: 120,
