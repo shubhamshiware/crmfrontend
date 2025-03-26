@@ -192,8 +192,6 @@ const ClientDetails = () => {
         }
       );
 
-      console.log("Response from backend:", res.data.data.profileImage);
-
       if (res.data.success) {
         setProfileImage(res.data.user.profileImage); // ✅ Update image after upload
         alert("Profile image updated!");
