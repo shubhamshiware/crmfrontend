@@ -275,7 +275,7 @@ const ProfilePage = () => {
 
     try {
       const res = await axios.post(
-        `https://crmback-tjvw.onrender.com/user/${userId}/imgupload`,
+        `https://crmback-tjvw.onrender.com/${userId}/imgupload`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
