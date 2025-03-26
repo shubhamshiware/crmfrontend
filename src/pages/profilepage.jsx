@@ -235,15 +235,15 @@ const ProfilePage = () => {
   };
 
   // ✅ Fetch Profile Image on Component Load
-  // useEffect(() => {
-  //   fetchUserProfile();
-  // }, [client?._id]); // Fetch whenever client ID changes
+  useEffect(() => {
+    fetchUserProfile();
+  }, [userId]); // Fetch whenever client ID changes
 
-  const fetchUserProfile = async (id) => {
+  const fetchUserProfile = async (userId) => {
     if (!userId) return; // Prevent errors if client ID is missing
     // const decodedToken = jwtDecode(token);
     // const loggedInUserId = decodedToken?.id;
-
+    console.log(userId, "testing id ");
     try {
       const res = await axios.get(
         `https://crmback-tjvw.onrender.com/user/${userId}`
