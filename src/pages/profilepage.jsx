@@ -235,9 +235,9 @@ const ProfilePage = () => {
   };
 
   // ✅ Fetch Profile Image on Component Load
-  useEffect(() => {
-    fetchUserProfile();
-  }, [userId]); // Fetch whenever client ID changes
+  // useEffect(() => {
+  //   fetchUserProfile();
+  // }, [userId]);
 
   const fetchUserProfile = async (userId) => {
     if (!userId) return; // Prevent errors if client ID is missing
