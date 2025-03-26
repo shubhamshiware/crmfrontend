@@ -31,6 +31,7 @@ const ClientDetails = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [user, setUser] = useState({});
+
   // const isPackageSet = useRef(false);
 
   // const leads = client.leadsgenerated;
@@ -143,32 +144,39 @@ const ClientDetails = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreview(URL.createObjectURL(file)); // Preview image before upload
+    setPreview(URL.createObjectURL(file)); // Show preview before upload
   };
 
+  // ✅ Fetch Profile Image on Component Load
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser) {
-      setUser(storedUser); // Set user from localStorage
-    } else {
-      fetchUserProfile(); // Fetch from API if not in localStorage
-    }
-  }, []);
+    fetchUserProfile();
+  }, [client?._id]); // Fetch whenever client ID changes
 
   const fetchUserProfile = async () => {
+    if (!client?._id) return; // Prevent errors if client ID is missing
+
     try {
       const res = await axios.get(
         `https://crmback-tjvw.onrender.com/client/${client._id}`
       );
-      setUser(res.data.user);
-      localStorage.setItem("user", JSON.stringify(res.data.user)); // Store updated user data
+
+      console.log(res.data, "Fetched client data");
+
+      if (res.data?.profileImage) {
+        setUser(res.data.profileImage); // ✅ Set the fetched image URL
+      }
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error(
+        "Error fetching user:",
+        error.response?.data || error.message
+      );
     }
   };
 
+  // ✅ Handle Image Upload to Cloudinary
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
+    console.log(client._id, "Uploading for client ID:");
 
     const formData = new FormData();
     formData.append("image", image);
@@ -183,11 +191,10 @@ const ClientDetails = () => {
         }
       );
 
-      console.log(res.data, "Response from backend");
+      console.log("Response from backend:", res.data);
 
       if (res.data.success) {
-        setUser(res.data.user); // Update user state
-        localStorage.setItem("user", JSON.stringify(res.data.user)); // Save to local storage
+        setUser(res.data.user.profileImage); // ✅ Update image after upload
         alert("Profile image updated!");
       } else {
         alert("Upload failed!");
