@@ -161,7 +161,7 @@ const ClientDetails = () => {
         `https://crmback-tjvw.onrender.com/client/${client._id}`
       );
 
-      console.log(res.data, "Fetched client data");
+      console.log(res.data.data.profileImage, "Fetched ");
 
       if (res.data?.success && res.data.data?.profileImage) {
         setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
