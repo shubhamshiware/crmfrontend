@@ -32,6 +32,10 @@ const ProfilePage = () => {
   const [userId, setUserId] = useState(null);
   const [averagePoints, setAveragePoints] = useState(0);
   const [performance, setPerformance] = useState("");
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState("");
+  const [user, setUser] = useState({});
+  const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -224,6 +228,75 @@ const ProfilePage = () => {
     }
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setPreview(URL.createObjectURL(file)); // Show preview before upload
+  };
+
+  // ✅ Fetch Profile Image on Component Load
+  // useEffect(() => {
+  //   fetchUserProfile();
+  // }, [client?._id]); // Fetch whenever client ID changes
+
+  const fetchUserProfile = async (id) => {
+    if (!userId) return; // Prevent errors if client ID is missing
+    // const decodedToken = jwtDecode(token);
+    // const loggedInUserId = decodedToken?.id;
+
+    try {
+      const res = await axios.get(
+        `https://crmback-tjvw.onrender.com/user/${userId}`
+      );
+
+      console.log(res.data.data.profileImage, "Fetched ");
+
+      if (res.data?.success && res.data.data?.profileImage) {
+        setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching user:",
+        error.response?.data || error.message
+      );
+    }
+  };
+
+  // ✅ Handle Image Upload
+  const handleUpload = async () => {
+    if (!image) return alert("Please select an image");
+    console.log(userId, "Uploading for client ID:");
+    // const decodedToken = jwtDecode(token);
+    // const loggedInUserId = decodedToken?.id;
+
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("userId", userId);
+
+    try {
+      const res = await axios.post(
+        `https://crmback-tjvw.onrender.com/user/${userId}/imgupload`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if (res.data.success) {
+        setProfileImage(res.data.user.profileImage); // ✅ Update image after upload
+        alert("Profile image updated!");
+      } else {
+        alert("Upload failed!");
+      }
+    } catch (error) {
+      console.error(
+        "Error uploading image:",
+        error.response?.data || error.message
+      );
+      alert("Image upload failed!");
+    }
+  };
+
   //logged in profile page
 
   return (
@@ -267,9 +340,17 @@ const ProfilePage = () => {
             alignItems="center"
             flex={1}
           >
-            <Avatar sx={{ width: 90, height: 90, mb: 2 }}>
-              <AccountCircle sx={{ fontSize: 120 }} />
-            </Avatar>
+            <Avatar
+              src={preview || profileImage || "https://via.placeholder.com/150"}
+              sx={{
+                width: 120,
+                height: 120,
+                mb: 2,
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            />
+            <input type="file" onChange={handleImageChange} />
+            <button onClick={handleUpload}>Upload</button>
 
             <Typography variant="h6" fontWeight="bold">
               {userData?.name}
