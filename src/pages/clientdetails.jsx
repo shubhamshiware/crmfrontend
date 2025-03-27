@@ -296,26 +296,77 @@ const ClientDetails = () => {
 
   return (
     <Box p={3} bgcolor="#f9f9f9" minHeight="100vh">
-      <Grid container spacing={3}>
+      <Grid container spacing={9}>
         <Grid item xs={12} md={4}>
           <Box
-            p={3}
             bgcolor="#fff"
             boxShadow="0px 4px 10px rgba(0, 0, 0, 0.1)"
             borderRadius="8px"
           >
-            <Avatar
-              src={preview || profileImage || "https://via.placeholder.com/150"}
-              alt={client.company}
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              flex={1}
+              p={3}
               sx={{
-                width: 120,
-                height: 120,
-                mb: 2,
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                backgroundColor: "white",
+                borderRadius: "12px",
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                maxWidth: "400px",
+                width: "100%",
               }}
-            />
-            <input type="file" onChange={handleImageChange} />
-            <button onClick={handleUpload}>Upload</button>
+            >
+              <Avatar
+                src={
+                  preview || profileImage || "https://via.placeholder.com/150"
+                }
+                sx={{
+                  width: 120,
+                  height: 120,
+                  mb: 2,
+                  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                }}
+              />
+
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                width="100%"
+              >
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  style={{
+                    marginBottom: "10px",
+                    padding: "8px",
+                    borderRadius: "6px",
+                    border: "1px solid #ccc",
+                    width: "100%",
+                  }}
+                />
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleUpload}
+                  sx={{
+                    textTransform: "none",
+                    borderRadius: "6px",
+                    width: "100%",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    padding: "8px 16px",
+                  }}
+                >
+                  Upload
+                </Button>
+              </Box>
+            </Box>
+
+            <br></br>
             <Typography variant="h5" gutterBottom>
               {client.company}
             </Typography>

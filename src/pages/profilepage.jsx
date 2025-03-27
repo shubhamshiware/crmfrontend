@@ -333,7 +333,16 @@ const ProfilePage = () => {
             display="flex"
             flexDirection="column"
             alignItems="center"
+            justifyContent="center"
             flex={1}
+            p={3}
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "12px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              maxWidth: "400px",
+              width: "100%",
+            }}
           >
             <Avatar
               src={preview || profileImage || "https://via.placeholder.com/150"}
@@ -344,12 +353,45 @@ const ProfilePage = () => {
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
               }}
             />
-            <input type="file" onChange={handleImageChange} />
-            <button onClick={handleUpload}>Upload</button>
 
-            <Typography variant="h6" fontWeight="bold">
+            <Typography variant="h6" fontWeight="bold" mb={2}>
               {userData?.name}
             </Typography>
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              width="100%"
+            >
+              <input
+                type="file"
+                onChange={handleImageChange}
+                style={{
+                  marginBottom: "10px",
+                  padding: "8px",
+                  borderRadius: "6px",
+                  border: "1px solid #ccc",
+                  width: "100%",
+                }}
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleUpload}
+                sx={{
+                  textTransform: "none",
+                  borderRadius: "6px",
+                  width: "100%",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                  padding: "8px 16px",
+                }}
+              >
+                Upload
+              </Button>
+            </Box>
           </Box>
 
           {/* Right - User Details */}
