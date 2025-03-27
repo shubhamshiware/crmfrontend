@@ -41,7 +41,7 @@ const ClientDetails = () => {
     if (token) {
       const decoded = jwtDecode(token);
       setUserData(decoded.role);
-      //   console.log(decoded.role, ",defined Role Of thid User");
+      console.log(decoded.role, ",defined Role Of thid User");
     }
   }, []);
 
