@@ -271,7 +271,7 @@ const ProfilePage = () => {
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("userid ", userId);
+    formData.append("userid", userId);
 
     try {
       const res = await axios.post(
