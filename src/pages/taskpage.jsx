@@ -36,6 +36,8 @@ const TaskPage = () => {
   const [userRole, setUserRole] = useState("");
   const [averagePoints, setAveragePoints] = useState(0);
   const [performance, setPerformance] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
+  const [preview, setPreview] = useState("");
 
   const location = useLocation();
   const employee = location.state;
@@ -98,6 +100,29 @@ const TaskPage = () => {
     };
 
     fetchTasks();
+  }, [userId]);
+
+  useEffect(() => {
+    if (!userId) return; // ✅ Ensures the effect only runs when userId is available
+
+    const fetchUserProfile = async () => {
+      try {
+        const res = await axios.get(
+          `https://crmback-tjvw.onrender.com/user/${userId}`
+        );
+
+        if (res.data?.success && res.data.data?.profileImage) {
+          setProfileImage(res.data.data.profileImage);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching user:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchUserProfile();
   }, [userId]);
 
   if (loading)
@@ -257,9 +282,15 @@ const TaskPage = () => {
             alignItems="center"
             flex={1}
           >
-            <Avatar sx={{ width: 90, height: 90, mb: 2 }}>
-              <AccountCircle sx={{ fontSize: 120 }} />
-            </Avatar>
+            <Avatar
+              src={preview || profileImage || "https://via.placeholder.com/150"}
+              sx={{
+                width: 120,
+                height: 120,
+                mb: 2,
+                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+              }}
+            />
             <Typography variant="h6" fontWeight="bold">
               {userData?.name}
             </Typography>
