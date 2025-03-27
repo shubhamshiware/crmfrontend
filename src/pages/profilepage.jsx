@@ -257,37 +257,10 @@ const ProfilePage = () => {
     setPreview(URL.createObjectURL(file)); // Show preview before upload
   };
 
-  // const fetchUser = async (userId) => {
-  //   if (!userId) return; // Prevent errors if client ID is missing
-  //   // const decodedToken = jwtDecode(token);
-  //   // const loggedInUserId = decodedToken?.id;
-  //   console.log(userId, "testing id ");
-  //   try {
-  //     const res = await axios.get(
-  //       `https://crmback-tjvw.onrender.com/user/${userId}`
-  //     );
-
-  //     console.log(res.data.data.profileImage, "Fetched ");
-
-  //     if (res.data?.success && res.data.data?.profileImage) {
-  //       setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Error fetching user:",
-  //       error.response?.data || error.message
-  //     );
-  //   }
-  // };
-  // ✅ Fetch Profile Image on Component Load
-  // useEffect(() => {
-  //   fetchUserProfile();
-  // }, [userId]);
-
   // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
-    console.log(userId, "Uploading:");
+    // console.log(userId, "Uploading:");
     // const decodedToken = jwtDecode(token);
     // const loggedInUserId = decodedToken?.id;
 
@@ -303,7 +276,7 @@ const ProfilePage = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      console.log(res);
+      // console.log(res);
       if (res.data.success) {
         setProfileImage(res.data.data); // ✅ Update image after upload
         alert("Profile image updated!");
