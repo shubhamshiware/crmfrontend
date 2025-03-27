@@ -17,6 +17,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import BusinessIcon from "@mui/icons-material/Business";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { jwtDecode } from "jwt-decode";
 
 const ClientDetails = () => {
   const { id } = useParams();
@@ -32,6 +33,17 @@ const ClientDetails = () => {
   const [preview, setPreview] = useState("");
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    if (token) {
+      const decoded = jwtDecode(token);
+      userData(decoded.role);
+      //   console.log(decoded.role, ",defined Role Of thid User");
+    }
+  }, []);
 
   useEffect(() => {
     if (client) {
@@ -336,33 +348,37 @@ const ClientDetails = () => {
                 alignItems="center"
                 width="100%"
               >
-                <input
-                  type="file"
-                  onChange={handleImageChange}
-                  style={{
-                    marginBottom: "10px",
-                    padding: "8px",
-                    borderRadius: "6px",
-                    border: "1px solid #ccc",
-                    width: "100%",
-                  }}
-                />
+                {userData?.role === "author" && (
+                  <>
+                    <input
+                      type="file"
+                      onChange={handleImageChange}
+                      style={{
+                        marginBottom: "10px",
+                        padding: "8px",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                        width: "100%",
+                      }}
+                    />
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleUpload}
-                  sx={{
-                    textTransform: "none",
-                    borderRadius: "6px",
-                    width: "100%",
-                    fontSize: "16px",
-                    fontWeight: "bold",
-                    padding: "8px 16px",
-                  }}
-                >
-                  Upload
-                </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleUpload}
+                      sx={{
+                        textTransform: "none",
+                        borderRadius: "6px",
+                        width: "100%",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        padding: "8px 16px",
+                      }}
+                    >
+                      Upload
+                    </Button>
+                  </>
+                )}
               </Box>
             </Box>
 
