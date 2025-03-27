@@ -107,6 +107,29 @@ const ProfilePage = () => {
     fetchUserData();
   }, []);
 
+  useEffect(() => {
+    if (!userId) return; // ✅ Ensures the effect only runs when userId is available
+
+    const fetchUserProfile = async () => {
+      try {
+        const res = await axios.get(
+          `https://crmback-tjvw.onrender.com/user/${userId}`
+        );
+
+        if (res.data?.success && res.data.data?.profileImage) {
+          setProfileImage(res.data.data.profileImage);
+        }
+      } catch (error) {
+        console.error(
+          "Error fetching user:",
+          error.response?.data || error.message
+        );
+      }
+    };
+
+    fetchUserProfile();
+  }, [userId]);
+
   if (loading)
     return (
       <Box display="flex" justifyContent="center" mt={5}>
@@ -234,33 +257,32 @@ const ProfilePage = () => {
     setPreview(URL.createObjectURL(file)); // Show preview before upload
   };
 
+  // const fetchUser = async (userId) => {
+  //   if (!userId) return; // Prevent errors if client ID is missing
+  //   // const decodedToken = jwtDecode(token);
+  //   // const loggedInUserId = decodedToken?.id;
+  //   console.log(userId, "testing id ");
+  //   try {
+  //     const res = await axios.get(
+  //       `https://crmback-tjvw.onrender.com/user/${userId}`
+  //     );
+
+  //     console.log(res.data.data.profileImage, "Fetched ");
+
+  //     if (res.data?.success && res.data.data?.profileImage) {
+  //       setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Error fetching user:",
+  //       error.response?.data || error.message
+  //     );
+  //   }
+  // };
   // ✅ Fetch Profile Image on Component Load
   // useEffect(() => {
   //   fetchUserProfile();
   // }, [userId]);
-
-  const fetchUserProfile = async (userId) => {
-    if (!userId) return; // Prevent errors if client ID is missing
-    // const decodedToken = jwtDecode(token);
-    // const loggedInUserId = decodedToken?.id;
-    console.log(userId, "testing id ");
-    try {
-      const res = await axios.get(
-        `https://crmback-tjvw.onrender.com/user/${userId}`
-      );
-
-      console.log(res.data.data.profileImage, "Fetched ");
-
-      if (res.data?.success && res.data.data?.profileImage) {
-        setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
-      }
-    } catch (error) {
-      console.error(
-        "Error fetching user:",
-        error.response?.data || error.message
-      );
-    }
-  };
 
   // ✅ Handle Image Upload
   const handleUpload = async () => {
