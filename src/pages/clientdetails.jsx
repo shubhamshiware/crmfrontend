@@ -33,9 +33,6 @@ const ClientDetails = () => {
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
 
-  // const isPackageSet = useRef(false);
-
-  // const leads = client.leadsgenerated;
   useEffect(() => {
     if (client) {
       setNewLeads(client.leadsgenerated || 0); // Ensure default value
@@ -161,7 +158,7 @@ const ClientDetails = () => {
         `https://crmback-tjvw.onrender.com/client/${client._id}`
       );
 
-      console.log(res.data.data.profileImage, "Fetched ");
+      // console.log(res.data.data.profileImage, "Fetched ");
 
       if (res.data?.success && res.data.data?.profileImage) {
         setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
@@ -177,7 +174,7 @@ const ClientDetails = () => {
   // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
-    console.log(client._id, "Uploading for client ID:");
+    // console.log(client._id, "Uploading for client ID:");
 
     const formData = new FormData();
     formData.append("image", image);
