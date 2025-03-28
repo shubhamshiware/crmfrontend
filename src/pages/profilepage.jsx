@@ -64,14 +64,12 @@ const ProfilePage = () => {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        // console.log(response, "datas");
+
         // Fetch all todos
         const fetchTasks = await axios.get(
           "https://crmback-tjvw.onrender.com/content/"
         );
         const allTasks = fetchTasks.data?.data || []; // Update to use `data`
-
-        // console.log("All Tasks datas", allTasks);
 
         //  Filter tasks where `task.userId === loggedInUserId`
         const userTasks = allTasks.filter(

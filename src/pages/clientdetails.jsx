@@ -33,14 +33,14 @@ const ClientDetails = () => {
   const [preview, setPreview] = useState("");
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
-  const [userData, setUserData] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
     if (token) {
       const decoded = jwtDecode(token);
-      setUserData(decoded.role);
+      setUserRole(decoded.role);
       console.log(decoded.role, ",defined Role Of thid User");
     }
   }, []);
@@ -186,7 +186,6 @@ const ClientDetails = () => {
   // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
-    // console.log(client._id, "Uploading for client ID:");
 
     const formData = new FormData();
     formData.append("image", image);
@@ -335,8 +334,8 @@ const ClientDetails = () => {
                   preview || profileImage || "https://via.placeholder.com/150"
                 }
                 sx={{
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   mb: 2,
                   boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                 }}
@@ -348,35 +347,38 @@ const ClientDetails = () => {
                 alignItems="center"
                 width="100%"
               >
-                <>
-                  <input
-                    type="file"
-                    onChange={handleImageChange}
-                    style={{
-                      marginBottom: "10px",
-                      padding: "8px",
-                      borderRadius: "6px",
-                      border: "1px solid #ccc",
-                      width: "100%",
-                    }}
-                  />
+                {userRole === "author" && (
+                  <>
+                    <input
+                      type="file"
+                      onChange={handleImageChange}
+                      style={{
+                        marginBottom: "10px",
+                        padding: "8px",
+                        borderRadius: "6px",
+                        border: "1px solid #ccc",
+                        width: "100%",
+                        cursor: "pointer",
+                      }}
+                    />
 
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleUpload}
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "6px",
-                      width: "100%",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      padding: "8px 16px",
-                    }}
-                  >
-                    Upload
-                  </Button>
-                </>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleUpload}
+                      sx={{
+                        textTransform: "none",
+                        borderRadius: "6px",
+                        width: "100%",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        padding: "8px 16px",
+                      }}
+                    >
+                      Upload
+                    </Button>
+                  </>
+                )}
               </Box>
             </Box>
 
@@ -550,14 +552,18 @@ const ClientDetails = () => {
               Followers Increased: {client.followers}%
             </Typography>
           </Box>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={handleLeads}
-            sx={{ mt: 2 }}
-          >
-            Edit All
-          </Button>
+          {userRole === "author" && (
+            <>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleLeads}
+                sx={{ mt: 2 }}
+              >
+                Edit All
+              </Button>
+            </>
+          )}
         </Box>
 
         <br></br>
@@ -573,37 +579,41 @@ const ClientDetails = () => {
               Remaining Amount: {client.package}
             </Typography>
           </Box>
-          <Typography variant="h5" gutterBottom>
-            Update Payment
-          </Typography>
+          {userRole === "author" && (
+            <>
+              <Typography variant="h5" gutterBottom>
+                Update Payment
+              </Typography>
 
-          <TextField
-            label="Payment Amount"
-            variant="outlined"
-            fullWidth
-            type="number"
-            value={paymentAmount}
-            onChange={handlePaymentChange}
-            sx={{ mb: 2 }}
-          />
+              <TextField
+                label="Payment Amount"
+                variant="outlined"
+                fullWidth
+                type="number"
+                value={paymentAmount}
+                onChange={handlePaymentChange}
+                sx={{ mb: 2 }}
+              />
 
-          <Box display="flex" justifyContent="space-between">
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => handleUpdatePackage("subtract")}
-            >
-              Deduct Payment
-            </Button>
+              <Box display="flex" justifyContent="space-between">
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => handleUpdatePackage("subtract")}
+                >
+                  Deduct Payment
+                </Button>
 
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleUpdatePackage("add")}
-            >
-              Add Payment
-            </Button>
-          </Box>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleUpdatePackage("add")}
+                >
+                  Add Payment
+                </Button>
+              </Box>
+            </>
+          )}
           <Box display="flex" justifyContent="center" alignItems="center">
             <PieChart width={500} height={400}>
               <Pie
