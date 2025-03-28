@@ -46,8 +46,6 @@ const LoginPage = () => {
         }
       );
 
-      // console.log("Login API response:", response);
-
       if (response.data.message === "Login successful") {
         console.log("Login successful, routing to dashboard...");
         setMessage("Login successful!");
@@ -56,13 +54,11 @@ const LoginPage = () => {
         // Reset the form
         setFormData({ email: "", password: "" });
 
-        // Save the user token in localStorage
         const token = response.data.data.token; // Get the token
         const redirectPage = response.data.data.redirectPage;
-        // console.log(redirectPage, "redireted");
+
         if (token) {
           localStorage.setItem("authToken", token);
-          // console.log("Token saved to localStorage:", token);
         } else {
           console.warn("Token not provided in the response.");
           setMessage("Login failed. Token missing in response.");
