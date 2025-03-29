@@ -58,8 +58,20 @@ const Dashboard = () => {
     navigate("/admindashboard"); // Navigate to Admin Dashboard
   };
 
+  const navigatetoattandece = () => {
+    navigate("/att");
+  };
   return (
     <>
+      {" "}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={navigatetoattandece}
+        sx={{ marginBottom: 2 }}
+      >
+        Attandence
+      </Button>
       {userRole === "admin" && (
         <Button
           variant="contained"
@@ -70,7 +82,6 @@ const Dashboard = () => {
           Admin Dashboard
         </Button>
       )}
-
       <Box sx={{ padding: 3 }}>
         <Paper
           elevation={3}

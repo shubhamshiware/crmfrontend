@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const Attendance = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [status, setStatus] = useState("");
+  const [id, setId] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      const decoded = jwtDecode(token);
+      const idd = decoded?.id;
+      setId(idd);
+      console.log(idd, "userid");
+    }
+  }, []);
 
   const markAttendance = async () => {
     if (!navigator.geolocation) {
@@ -21,14 +33,14 @@ const Attendance = () => {
         try {
           const response = await axios.post(
             "https://crmback-tjvw.onrender.com/attendence/attendance",
-            { latitude, longitude },
+            { latitude, longitude, id },
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,
               },
             }
           );
-
+          console.log(response, "backend respose");
           setStatus(response.data.message);
         } catch (error) {
           setStatus(

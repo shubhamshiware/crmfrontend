@@ -292,14 +292,22 @@ const ProfilePage = () => {
     }
   };
 
-  const navigateTo = () => {
-    navigate("/Taskpage");
+  const navigateToss = () => {
+    navigate("/Attandse");
   };
 
   //logged in profile page
 
   return (
     <Box display="flex" justifyContent="center" mt={5}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={navigateToss}
+        sx={{ marginBottom: 2 }}
+      >
+        Attandence
+      </Button>
       <Card
         sx={{
           maxWidth: 300,
@@ -327,16 +335,6 @@ const ProfilePage = () => {
             }
           >
             {performance}
-          </Typography>
-          <Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={navigateTo} // navigateTo
-              sx={{ marginBottom: 2 }}
-            >
-              Attandence
-            </Button>
           </Typography>
         </CardContent>
       </Card>

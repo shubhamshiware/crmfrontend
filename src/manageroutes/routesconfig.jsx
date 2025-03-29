@@ -13,6 +13,8 @@ import ClientDetails from "../pages/clientdetails.jsx";
 import Profilepage from "../pages/profilepage.jsx";
 import Taskssss from "../pages/task.jsx";
 import TaskPage from "../pages/taskpage.jsx";
+import Attendance from "../attandence/attandence.jsx";
+// import Attendance from "../attandence/attandence.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -31,6 +33,7 @@ const RoutesConfig = () => {
       <Route path="/profilepage" element={<Profilepage />} />
       <Route path="/Taskssss" element={<Taskssss />} />
       <Route path="/Taskpage" element={<TaskPage />} />
+      <Route path="/att" element={<Attendance />} />
     </Routes>
   );
 };
