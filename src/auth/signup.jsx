@@ -12,8 +12,8 @@ const SignupPage = () => {
     password: "",
   });
 
-  const [message, setMessage] = useState(""); // Success/Error message
-  const [success, setSuccess] = useState(false); // Success state for conditional UI
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,15 +23,13 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Make API call to submit form data
       const response = await axios.post(
         "https://crmback-tjvw.onrender.com/auth/signup",
         formData
       );
-      // console.log(response);
+
       // If the backend returns success, update the message and reset form
       if (response.data.message === "Success") {
-        // console.log("Signup successful, routing to dashboard...");
         setMessage("Your account has been created successfully!");
         setSuccess(true);
         setFormData({ username: "", email: "", password: "" });
@@ -43,7 +41,7 @@ const SignupPage = () => {
     } catch (err) {
       console.error(err);
       setMessage("An error occurred. Please try again later.");
-      setSuccess(false); // Set error state
+      setSuccess(false);
     }
   };
 

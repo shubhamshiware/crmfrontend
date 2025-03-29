@@ -48,7 +48,7 @@ const Addclients = () => {
           throw new Error("Failed to fetch clients");
         }
         const result = await response.json();
-        setClients(result.data); // Assuming `data` contains an array of clients
+        setClients(result.data);
       } catch (err) {
         setError(err.message);
       } finally {

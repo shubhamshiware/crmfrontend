@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -36,6 +37,11 @@ const ProfilePage = () => {
   const [preview, setPreview] = useState("");
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
+  const navigate = useNavigate();
+
+  const navigateTo = () => {
+    navigate("/Attandse");
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -321,6 +327,16 @@ const ProfilePage = () => {
             }
           >
             {performance}
+          </Typography>
+          <Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={navigateTo}
+              sx={{ marginBottom: 2 }}
+            >
+              Attandence
+            </Button>
           </Typography>
         </CardContent>
       </Card>
