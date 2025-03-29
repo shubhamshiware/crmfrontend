@@ -39,10 +39,6 @@ const ProfilePage = () => {
   const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
 
-  const navigateTo = () => {
-    navigate("/Taskpage");
-  };
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -294,6 +290,10 @@ const ProfilePage = () => {
       );
       alert("Image upload failed!");
     }
+  };
+
+  const navigateTo = () => {
+    navigate("/Taskpage");
   };
 
   //logged in profile page
