@@ -40,7 +40,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   const navigateTo = () => {
-    navigate("/Attandse");
+    navigate("/Taskpage");
   };
 
   useEffect(() => {
@@ -332,7 +332,7 @@ const ProfilePage = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={navigateTo}
+              onClick={navigateTo} // navigateTo
               sx={{ marginBottom: 2 }}
             >
               Attandence
