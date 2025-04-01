@@ -22,9 +22,35 @@ const Attendance = () => {
       const decoded = jwtDecode(token);
       const userId = decoded?.id;
       setId(userId);
-      console.log(userId, "kkkk");
+      console.log("User ID:", userId);
+      fetchAttendance(userId);
     }
   }, []);
+
+  // Fetch past attendance by user ID
+  const fetchAttendance = async (userId) => {
+    try {
+      const response = await axios.get(
+        `https://crmback-tjvw.onrender.com/attendence/attendance/${userId}`, // Assuming backend supports this route
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      // Map data to match calendar format
+      const formattedAttendance = response.data.map((record) => ({
+        start: new Date(record.date),
+        end: new Date(record.date),
+        title: record.status,
+      }));
+
+      setAttendanceEvents(formattedAttendance);
+    } catch (error) {
+      console.error("Error fetching attendance:", error);
+    }
+  };
 
   const markAttendance = async () => {
     if (!navigator.geolocation) {
@@ -53,14 +79,21 @@ const Attendance = () => {
         try {
           const response = await axios.post(
             "https://crmback-tjvw.onrender.com/attendence/attendance",
-            { latitude, longitude, id },
+            {
+              latitude,
+              longitude,
+              id, // Include user ID
+              date: new Date().toISOString(),
+              status: "Present",
+            },
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("authToken")}`,
               },
             }
           );
-          console.log(response, "Backend response");
+
+          console.log("Backend response:", response);
           setStatus(response.data.message);
 
           // Add attendance to calendar events
