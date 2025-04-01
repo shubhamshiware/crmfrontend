@@ -22,7 +22,7 @@ const Attendance = () => {
       const decoded = jwtDecode(token);
       const userId = decoded?.id;
       setId(userId);
-      console.log(decoded, "kk");
+      console.log(userId, "kkkk");
     }
   }, []);
 
