@@ -63,7 +63,7 @@ const Attendance = () => {
         const { latitude, longitude } = position.coords;
         setLatitude(latitude);
         setLongitude(longitude);
-
+        console.log(id, "checkid ");
         // Check if the user is within the allowed range
         const referenceLocation = { latitude: 22.0591, longitude: 78.9299 };
         const distance = getDistance(
