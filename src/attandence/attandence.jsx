@@ -31,14 +31,14 @@ const Attendance = () => {
   const fetchAttendance = async (userId) => {
     try {
       const response = await axios.get(
-        `https://crmback-tjvw.onrender.com/attendence/attendance/${userId}`, // Assuming backend supports this route
+        `https://crmback-tjvw.onrender.com/attendence/${userId}`, // Assuming backend supports this route
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
         }
       );
-
+      console.log(response, "get api response ");
       // Map data to match calendar format
       const formattedAttendance = response.data.map((record) => ({
         start: new Date(record.date),
@@ -64,6 +64,7 @@ const Attendance = () => {
         setLatitude(latitude);
         setLongitude(longitude);
         console.log(id, "checkid ");
+
         // Check if the user is within the allowed range
         const referenceLocation = { latitude: 22.0591, longitude: 78.9299 };
         const distance = getDistance(
@@ -82,7 +83,7 @@ const Attendance = () => {
             {
               latitude,
               longitude,
-              id, // Include user ID
+              userId: id, // Ensure userId is sent properly
               date: new Date().toISOString(),
               status: "Present",
             },
