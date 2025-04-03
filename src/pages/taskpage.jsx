@@ -23,6 +23,7 @@ import {
 } from "@mui/icons-material";
 import { jwtDecode } from "jwt-decode";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const TaskPage = () => {
   const [userData, setUserData] = useState(null);
@@ -38,6 +39,7 @@ const TaskPage = () => {
   const [performance, setPerformance] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [preview, setPreview] = useState("");
+  const navigate = useNavigate();
 
   const location = useLocation();
   const employee = location.state;
@@ -242,6 +244,14 @@ const TaskPage = () => {
     }
   };
 
+  const handleNavigation = () => {
+    if (!userId) {
+      alert("User ID is missing");
+      return;
+    }
+    navigate("/att", { state: { userId } }); // Pass userId in state
+  };
+
   return (
     <Box display="flex" justifyContent="center" mt={5}>
       <Card
@@ -271,6 +281,9 @@ const TaskPage = () => {
             }
           >
             {performance}
+          </Typography>
+          <Typography>
+            <button onClick={handleNavigation}>chek Attendance</button>;{" "}
           </Typography>
         </CardContent>
       </Card>

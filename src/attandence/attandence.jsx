@@ -5,6 +5,7 @@ import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { getDistance } from "geolib";
+import { useLocation, useParams } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -16,16 +17,28 @@ const Attendance = () => {
   const [attendanceEvents, setAttendanceEvents] = useState([]); // Stores attendance records
   const threshold = 500; // 500 meters accuracy threshold
 
+  const location = useLocation();
+  const { userId: routeUserId } = useParams(); // Get userId from URL if available
+  const stateUserId = location.state?.userId; // Get userId from state if available
+
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      const decoded = jwtDecode(token);
-      const userId = decoded?.id;
-      setId(userId);
-      console.log("User ID:", userId);
-      fetchAttendance(userId);
+    let finalUserId = routeUserId || stateUserId; // First check if userId exists from route/state
+
+    if (!finalUserId) {
+      // If not from route, get from JWT token
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        const decoded = jwtDecode(token);
+        finalUserId = decoded?.id;
+      }
     }
-  }, []);
+
+    if (finalUserId) {
+      setId(finalUserId);
+      console.log("User ID:", finalUserId);
+      fetchAttendance(finalUserId);
+    }
+  }, [routeUserId, stateUserId]);
 
   // Fetch past attendance by user ID
   const fetchAttendance = async (userId) => {
@@ -38,7 +51,8 @@ const Attendance = () => {
           },
         }
       );
-      console.log(response, "get api response ");
+      //   console.log(response, "get api response ");
+
       // Map data to match calendar format
       const formattedAttendance = response.data.map((record) => ({
         start: new Date(record.date),
@@ -63,7 +77,7 @@ const Attendance = () => {
         const { latitude, longitude } = position.coords;
         setLatitude(latitude);
         setLongitude(longitude);
-        console.log(id, "checkid ");
+        console.log(id, "checkid "); // This should now be correctly set
 
         // Check if the user is within the allowed range
         const referenceLocation = { latitude: 22.0591, longitude: 78.9299 };
@@ -94,13 +108,13 @@ const Attendance = () => {
             }
           );
 
-          console.log("Backend response:", response);
+          //   console.log("Backend response:", response);
           setStatus(response.data.message);
 
           // Add attendance to calendar events
           const today = new Date();
-          setAttendanceEvents([
-            ...attendanceEvents,
+          setAttendanceEvents((prevEvents) => [
+            ...prevEvents,
             {
               start: today,
               end: today,
@@ -156,3 +170,6 @@ const Attendance = () => {
 };
 
 export default Attendance;
+
+//there is work remaining for task page we need to make arrangemnts for the id of user will
+// will come with location
