@@ -136,7 +136,7 @@ const Attendance = () => {
 
   return (
     <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h2>Mark Attendance</h2>
+      <h2> Attendance</h2>
       <button
         onClick={markAttendance}
         style={{
