@@ -195,7 +195,7 @@ const ProfilePage = () => {
         completed: !completed, // Toggle completion status
       };
 
-      console.log(" Sending Payload:", updatedPayload);
+      // console.log(" Sending Payload:", updatedPayload);
 
       // Send request to API
       const response = await axios.put(
