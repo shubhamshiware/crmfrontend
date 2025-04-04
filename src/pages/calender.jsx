@@ -10,7 +10,6 @@ const Calendar = () => {
   const [events, setEvents] = useState([]);
   const [userRole, setUserRole] = useState("");
 
-  // Fetch User Role on Mount
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
@@ -19,7 +18,6 @@ const Calendar = () => {
     }
   }, []);
 
-  // Function to Fetch Events from Backend
   const fetchEvents = () => {
     fetch("https://crmback-tjvw.onrender.com/task/tasks")
       .then((response) => response.json())
@@ -115,3 +113,8 @@ const Calendar = () => {
 };
 
 export default Calendar;
+
+//crud tasks
+//fetch the data from task rout
+//delay in status update
+//implemented attandence task

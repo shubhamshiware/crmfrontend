@@ -16,7 +16,7 @@ const Calendarone = () => {
     if (token) {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
-      //   console.log(decoded.role, ",defined Role Of thid User");
+      console.log(token, "data extracted from token ");
     }
   }, []);
 
