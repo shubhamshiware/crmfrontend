@@ -283,7 +283,15 @@ const TaskPage = () => {
             {performance}
           </Typography>
           <Typography>
-            <button onClick={handleNavigation}>chek Attendance</button>;{" "}
+            <br></br>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleNavigation}
+              sx={{ marginBottom: 2 }}
+            >
+              Attandence
+            </Button>{" "}
           </Typography>
         </CardContent>
       </Card>
