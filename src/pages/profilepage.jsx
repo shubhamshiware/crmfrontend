@@ -313,9 +313,11 @@ const ProfilePage = () => {
           <Typography variant="h6" color="primary">
             Earned Points
           </Typography>
+
           <Typography variant="h4" fontWeight="bold">
             {averagePoints}
           </Typography>
+
           <Typography
             variant="body3"
             color={
@@ -330,6 +332,7 @@ const ProfilePage = () => {
           </Typography>
           <Typography>
             {" "}
+            <br></br>
             <Button
               variant="contained"
               color="primary"

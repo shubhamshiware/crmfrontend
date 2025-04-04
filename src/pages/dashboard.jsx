@@ -58,20 +58,20 @@ const Dashboard = () => {
     navigate("/admindashboard"); // Navigate to Admin Dashboard
   };
 
-  const navigatetoattandece = () => {
-    navigate("/att");
-  };
+  // const navigatetoattandece = () => {
+  //   navigate("/att");
+  // };
   return (
     <>
       {" "}
-      <Button
+      {/* <Button
         variant="contained"
         color="primary"
         onClick={navigatetoattandece}
         sx={{ marginBottom: 2 }}
       >
         Attandence
-      </Button>
+      </Button> */}
       {userRole === "admin" && (
         <Button
           variant="contained"
