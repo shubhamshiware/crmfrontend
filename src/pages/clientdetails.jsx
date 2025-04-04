@@ -41,19 +41,19 @@ const ClientDetails = () => {
     if (token) {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
-      console.log(decoded.role, ",defined Role Of thid User");
+      console.log(decoded.role, ",defined Role Of this User");
     }
   }, []);
 
   useEffect(() => {
     if (client) {
-      setNewLeads(client.leadsgenerated || 0); // Ensure default value
+      setNewLeads(client.leadsgenerated || 0);
 
       setNewFollowers(client.followers);
       setViews(client.views);
       console.log(newFollowers, "leads");
     }
-  }, [client]); // Runs only when `client` changes
+  }, [client]);
 
   const data = [
     { name: "Leads generated", value: newLeads },
@@ -75,7 +75,6 @@ const ClientDetails = () => {
           throw new Error("Failed to fetch client details");
         }
         const data = await response.json();
-        // console.log(data, "client detalis");
 
         setClient(data.data);
         setPackageAmount(data.data.package);
@@ -89,7 +88,6 @@ const ClientDetails = () => {
     fetchClientDetails();
   }, [id]);
   const handleLeads = async () => {
-    // Prompt user to enter new values
     const updatedLeads = prompt(
       "Enter new number of leads:",
       client.leadsgenerated
@@ -154,26 +152,23 @@ const ClientDetails = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreview(URL.createObjectURL(file)); // Show preview before upload
+    setPreview(URL.createObjectURL(file));
   };
 
-  // ✅ Fetch Profile Image on Component Load
   useEffect(() => {
     fetchUserProfile();
-  }, [client?._id]); // Fetch whenever client ID changes
+  }, [client?._id]);
 
   const fetchUserProfile = async () => {
-    if (!client?._id) return; // Prevent errors if client ID is missing
+    if (!client?._id) return;
 
     try {
       const res = await axios.get(
         `https://crmback-tjvw.onrender.com/client/${client._id}`
       );
 
-      // console.log(res.data.data.profileImage, "Fetched ");
-
       if (res.data?.success && res.data.data?.profileImage) {
-        setProfileImage(res.data.data.profileImage); // ✅ Set the fetched profile image
+        setProfileImage(res.data.data.profileImage);
       }
     } catch (error) {
       console.error(
@@ -183,7 +178,6 @@ const ClientDetails = () => {
     }
   };
 
-  // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
 
@@ -201,7 +195,7 @@ const ClientDetails = () => {
       );
 
       if (res.data.success) {
-        setProfileImage(res.data.user.profileImage); // ✅ Update image after upload
+        setProfileImage(res.data.user.profileImage);
         alert("Profile image updated!");
       } else {
         alert("Upload failed!");
@@ -236,7 +230,6 @@ const ClientDetails = () => {
       newAmount = packageAmount + parseFloat(paymentAmount);
     }
 
-    // ✅ **Update UI first for instant change**
     setPackageAmount(newAmount);
 
     try {
@@ -258,7 +251,6 @@ const ClientDetails = () => {
       console.error("Error updating package amount:", error);
       alert("Error updating package amount");
 
-      // ❌ **Revert UI change if API fails**
       setPackageAmount(packageAmount);
     }
   };
@@ -643,3 +635,9 @@ const ClientDetails = () => {
 };
 
 export default ClientDetails;
+
+//client fetch + data utilise - done
+//image upload - done
+//status change - done
+//handel payment - done
+// handel package - partialy remaining

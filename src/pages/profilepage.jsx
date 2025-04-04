@@ -152,13 +152,13 @@ const ProfilePage = () => {
       const response = await axios.post(
         "https://crmback-tjvw.onrender.com/content/content",
         {
-          userId: userId, // Send userId (fetch from auth context or state)
+          userId: userId,
           update: newTask,
         }
       );
 
-      setTasks([...tasks, response.data.data]); // Update UI
-      setNewTask(""); // Clear input field
+      setTasks([...tasks, response.data.data]);
+      setNewTask("");
       // console.log(tasks, "task");
     } catch (error) {
       console.error("Error adding task:", error);
