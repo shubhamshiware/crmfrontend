@@ -276,7 +276,7 @@ const ProfilePage = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-      // console.log(res);
+      console.log(res, "checking respponse of incoming ");
       if (res.data.success) {
         setProfileImage(res.data.data); // ✅ Update image after upload
         alert("Profile image updated!");
