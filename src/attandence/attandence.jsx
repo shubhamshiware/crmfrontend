@@ -108,7 +108,7 @@ const Attendance = () => {
             }
           );
 
-          //   console.log("Backend response:", response);
+          console.log("Backend response:", response);
           setStatus(response.data.message);
 
           // Add attendance to calendar events
