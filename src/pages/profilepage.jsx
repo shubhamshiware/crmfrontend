@@ -489,9 +489,15 @@ const ProfilePage = () => {
                         {task.task || task.update || "No Task Title"}
                       </Typography>
                     )}
+                    <Typography
+                      variant="body2"
+                      color={task.completed ? "green" : "orange"}
+                    >
+                      {task.completed ? "Completed" : "Not Completed"}
+                    </Typography>
 
                     {/* Description */}
-                    {task.uploadedAt && (
+                    {/* {task.uploadedAt && (
                       <Typography
                         variant="body2"
                         color="text.secondary"
@@ -500,7 +506,7 @@ const ProfilePage = () => {
                         Due date -{" "}
                         {new Date(task.uploadedAt).toLocaleDateString()}
                       </Typography>
-                    )}
+                    )} */}
                   </Box>
 
                   {/* Edit/Delete Buttons (only for admin) */}
@@ -534,9 +540,9 @@ const ProfilePage = () => {
                 </Box>
 
                 {/* Due Date */}
-                {task.dueDate && (
+                {task.uploadedAt && (
                   <Typography variant="caption" color="text.secondary" mt={1}>
-                    Due: {new Date(task.dueDate).toLocaleDateString()}
+                    Due: {new Date(task.uploadedAt).toLocaleDateString()}
                   </Typography>
                 )}
               </Card>
