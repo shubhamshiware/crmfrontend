@@ -59,7 +59,6 @@ const ProfilePage = () => {
           return;
         }
 
-        // Fetch user details
         const response = await axios.get(
           `https://crmback-tjvw.onrender.com/user/${loggedInUserId}`,
           {
@@ -67,11 +66,10 @@ const ProfilePage = () => {
           }
         );
 
-        // Fetch all todos
         const fetchTasks = await axios.get(
           "https://crmback-tjvw.onrender.com/content/"
         );
-        const allTasks = fetchTasks.data?.data || []; // Update to use `data`
+        const allTasks = fetchTasks.data?.data || [];
 
         //  Filter tasks where `task.userId === loggedInUserId`
         const userTasks = allTasks.filter(
@@ -108,7 +106,7 @@ const ProfilePage = () => {
   }, []);
 
   useEffect(() => {
-    if (!userId) return; // ✅ Ensures the effect only runs when userId is available
+    if (!userId) return; // Ensures the effect only runs when userId is available
 
     const fetchUserProfile = async () => {
       try {
@@ -159,7 +157,6 @@ const ProfilePage = () => {
 
       setTasks([...tasks, response.data.data]);
       setNewTask("");
-      // console.log(tasks, "task");
     } catch (error) {
       console.error("Error adding task:", error);
     }
@@ -186,7 +183,7 @@ const ProfilePage = () => {
       if (assignedTo) updateFields.assignedTo = assignedTo;
 
       // Ensure update is always an object (never null)
-      updateFields.points = 10; // Example points to add per task completion
+      updateFields.points = 10;
 
       // Construct API payload
       const updatedPayload = {
@@ -195,15 +192,11 @@ const ProfilePage = () => {
         completed: !completed, // Toggle completion status
       };
 
-      // console.log(" Sending Payload:", updatedPayload);
-
       // Send request to API
       const response = await axios.put(
         "https://crmback-tjvw.onrender.com/content/edit",
         updatedPayload
       );
-
-      // console.log(" Updated Task Response:", response.data);
 
       // Update UI only if API is successful
       const updatedTasks = [...tasks];
@@ -244,7 +237,7 @@ const ProfilePage = () => {
       const updatedTasks = [...tasks];
       updatedTasks[index].update = editText;
       setTasks(updatedTasks);
-      // console.log(tasks, "example");
+
       setEditIndex(null);
     } catch (error) {
       console.error("Error updating task:", error);
@@ -257,12 +250,8 @@ const ProfilePage = () => {
     setPreview(URL.createObjectURL(file)); // Show preview before upload
   };
 
-  // ✅ Handle Image Upload
   const handleUpload = async () => {
     if (!image) return alert("Please select an image");
-    // console.log(userId, "Uploading:");
-    // const decodedToken = jwtDecode(token);
-    // const loggedInUserId = decodedToken?.id;
 
     const formData = new FormData();
     formData.append("image", image);
@@ -295,8 +284,6 @@ const ProfilePage = () => {
   const navigateToss = () => {
     navigate("/att");
   };
-
-  //logged in profile page
 
   return (
     <Box display="flex" justifyContent="center" mt={5}>
@@ -467,43 +454,58 @@ const ProfilePage = () => {
           {/* Task List */}
           <Box mt={3}>
             {tasks.map((task, index) => (
-              <Box key={task._id} display="flex" alignItems="center" mt={1}>
-                <Checkbox
-                  checked={task.completed || false}
-                  onChange={() =>
-                    handleToggleTask(index, task._id, task.completed)
-                  }
-                  sx={{
-                    color: task.completed ? "green" : "gray",
-                    "&.Mui-checked": {
-                      color: "green",
-                    },
-                  }}
-                />
-                <>
-                  {editIndex === index ? (
-                    <TextField
-                      value={editText}
-                      onChange={(e) => setEditText(e.target.value)}
-                      sx={{ flexGrow: 1 }}
-                    />
-                  ) : (
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        flexGrow: 1,
-                        textDecoration: task.completed
-                          ? "line-through"
-                          : "none",
-                      }}
-                    >
-                      {task.update}
-                    </Typography>
-                  )}
+              <Card key={task._id} sx={{ p: 2, mb: 2, boxShadow: 3 }}>
+                <Box display="flex" alignItems="center">
+                  <Checkbox
+                    checked={task.completed || false}
+                    onChange={() =>
+                      handleToggleTask(index, task._id, task.completed)
+                    }
+                    sx={{
+                      color: task.completed ? "green" : "gray",
+                      "&.Mui-checked": {
+                        color: "green",
+                      },
+                    }}
+                  />
 
-                  {/* ✅ Only Admin Can Edit/Delete */}
+                  <Box sx={{ flexGrow: 1 }}>
+                    {/* Task Title */}
+                    {editIndex === index ? (
+                      <TextField
+                        fullWidth
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                      />
+                    ) : (
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          textDecoration: task.completed
+                            ? "line-through"
+                            : "none",
+                        }}
+                      >
+                        {task.task || task.update || "No Task Title"}
+                      </Typography>
+                    )}
+
+                    {/* Description */}
+                    {task.uploadedAt && (
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        mt={0.5}
+                      >
+                        Due date -{" "}
+                        {new Date(task.uploadedAt).toLocaleDateString()}
+                      </Typography>
+                    )}
+                  </Box>
+
+                  {/* Edit/Delete Buttons (only for admin) */}
                   {userData?.role === "admin" && (
-                    <>
+                    <Box>
                       {editIndex === index ? (
                         <Button
                           color="primary"
@@ -519,7 +521,6 @@ const ProfilePage = () => {
                           >
                             <Edit />
                           </IconButton>
-
                           <IconButton
                             color="error"
                             onClick={() => handleDeleteTask(task._id)}
@@ -528,10 +529,17 @@ const ProfilePage = () => {
                           </IconButton>
                         </>
                       )}
-                    </>
+                    </Box>
                   )}
-                </>
-              </Box>
+                </Box>
+
+                {/* Due Date */}
+                {task.dueDate && (
+                  <Typography variant="caption" color="text.secondary" mt={1}>
+                    Due: {new Date(task.dueDate).toLocaleDateString()}
+                  </Typography>
+                )}
+              </Card>
             ))}
           </Box>
         </Box>

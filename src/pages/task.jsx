@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Grid, Card, Typography, Box, Paper, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Ensure this is installed: npm install jwt-decode
+import { jwtDecode } from "jwt-decode";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const Taskssss = () => {
   const [authors, setAuthors] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [userRole, setUserRole] = useState(""); // Stores user role
+  const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const Taskssss = () => {
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setUserRole(decoded.role); // Extract user role from token
+        setUserRole(decoded.role);
         console.log(userRole, "role in taskss");
       } catch (error) {
         console.error("Error decoding token:", error);
@@ -53,12 +53,10 @@ const Taskssss = () => {
 
   const handleEdit = (userId) => {
     console.log("Editing user:", userId);
-    // Implement edit logic here
   };
 
   const handleDelete = (userId) => {
     console.log("Deleting user:", userId);
-    // Implement delete logic here
   };
 
   return (
@@ -119,7 +117,6 @@ const Taskssss = () => {
                     </Typography>
                   </Box>
 
-                  {/* Show edit/delete buttons only for admins */}
                   {userRole === "admin" && (
                     <Box>
                       <IconButton
@@ -185,7 +182,6 @@ const Taskssss = () => {
                     </Typography>
                   </Box>
 
-                  {/* Show edit/delete buttons only for admins */}
                   {userRole === "admin" && (
                     <Box>
                       <IconButton
