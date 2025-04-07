@@ -175,13 +175,13 @@ const TaskPage = () => {
       if (assignedTo) updateFields.assignedTo = assignedTo;
 
       // Ensure update is always an object (never null)
-      updateFields.points = 10; // Example points to add per task completion
+      updateFields.points = 10;
 
       // Construct API payload
       const updatedPayload = {
         _id: id,
         update: updateFields,
-        completed: !completed, // Toggle completion status
+        completed: !completed,
       };
 
       // Send request to API

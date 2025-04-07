@@ -52,7 +52,7 @@ const Salsepage = () => {
       .get("https://crmback-tjvw.onrender.com/salse/")
       .then((response) => {
         const fetchedData = response.data.data[0];
-        // console.log(fetchedData, "fetched data");
+
         if (fetchedData && fetchedData._id) {
           setSalesData({
             id: fetchedData._id,
@@ -70,8 +70,6 @@ const Salsepage = () => {
       });
   }, []);
 
-  //   console.log(salesData, "data");
-  //   console.log(salesData.id);
   const handleEdit = (field, value) => {
     const allowedFields = [
       "totalClients",

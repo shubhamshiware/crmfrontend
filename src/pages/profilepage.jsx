@@ -400,6 +400,7 @@ const ProfilePage = () => {
           </Box>
 
           {/* Right - User Details */}
+
           <Box flex={2} ml={4}>
             <CardContent>
               <Box display="flex" alignItems="center" mb={1}>
@@ -489,15 +490,22 @@ const ProfilePage = () => {
                         {task.task || task.update || "No Task Title"}
                       </Typography>
                     )}
-                    <Typography
-                      variant="body2"
-                      color={task.completed ? "green" : "orange"}
+                    <box
+                      display="flex"
+                      flexDirection="row"
+                      alignItems="center"
+                      justifyContent="center"
                     >
-                      {task.completed ? "Completed" : "Not Completed"}
-                    </Typography>
+                      <Typography
+                        variant="body2"
+                        color={task.completed ? "green" : "orange"}
+                      >
+                        {task.completed ? "Completed" : "Not Completed"}
+                      </Typography>
+                    </box>
 
                     {/* Description */}
-                    {/* {task.uploadedAt && (
+                    {task.uploadedAt && (
                       <Typography
                         variant="body2"
                         color="text.secondary"
@@ -506,7 +514,7 @@ const ProfilePage = () => {
                         Due date -{" "}
                         {new Date(task.uploadedAt).toLocaleDateString()}
                       </Typography>
-                    )} */}
+                    )}
                   </Box>
 
                   {/* Edit/Delete Buttons (only for admin) */}
@@ -540,11 +548,11 @@ const ProfilePage = () => {
                 </Box>
 
                 {/* Due Date */}
-                {task.uploadedAt && (
+                {/* {task.uploadedAt && (
                   <Typography variant="caption" color="text.secondary" mt={1}>
                     Due: {new Date(task.uploadedAt).toLocaleDateString()}
                   </Typography>
-                )}
+                )} */}
               </Card>
             ))}
           </Box>
