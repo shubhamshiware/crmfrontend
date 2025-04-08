@@ -471,7 +471,6 @@ const ProfilePage = () => {
                   />
 
                   <Box sx={{ flexGrow: 1 }}>
-                    {/* Task Title */}
                     {editIndex === index ? (
                       <TextField
                         fullWidth
@@ -492,9 +491,9 @@ const ProfilePage = () => {
                     )}
                     <box
                       display="flex"
-                      flexDirection="row"
-                      alignItems="center"
-                      justifyContent="center"
+                      flexDirection="colum"
+                      alignItems="right"
+                      justifyContent="right"
                     >
                       <Typography
                         variant="body2"
@@ -504,7 +503,6 @@ const ProfilePage = () => {
                       </Typography>
                     </box>
 
-                    {/* Description */}
                     {task.uploadedAt && (
                       <Typography
                         variant="body2"
@@ -517,7 +515,6 @@ const ProfilePage = () => {
                     )}
                   </Box>
 
-                  {/* Edit/Delete Buttons (only for admin) */}
                   {userData?.role === "admin" && (
                     <Box>
                       {editIndex === index ? (
@@ -563,3 +560,8 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
+//remaining task - providing edit option on profile section
+//               - modify add task remove input give button only and after click it shold appear with input and discription box
+//               - need to modify todo section
+//               -
