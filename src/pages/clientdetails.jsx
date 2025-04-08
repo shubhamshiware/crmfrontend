@@ -18,6 +18,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import BusinessIcon from "@mui/icons-material/Business";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { jwtDecode } from "jwt-decode";
+import { Divider } from "@mui/material";
 
 const ClientDetails = () => {
   const { id } = useParams();
@@ -338,6 +339,7 @@ const ClientDetails = () => {
                 flexDirection="column"
                 alignItems="center"
                 width="100%"
+                paddingleft="10px"
               >
                 {userRole === "author" && (
                   <>
@@ -375,28 +377,68 @@ const ClientDetails = () => {
             </Box>
 
             <br></br>
-            <Typography variant="h5" gutterBottom>
-              {client.company}
-            </Typography>
-            <Box display="flex" alignItems="center" mb={2}>
-              <PhoneIcon color="primary" sx={{ mr: 1 }} />
-              <Typography variant="body1">{client.phone}</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" mb={2}>
-              <EmailIcon color="primary" sx={{ mr: 1 }} />
-              <Typography variant="body1">{client.email}</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" mb={2}>
-              <BusinessIcon color="primary" sx={{ mr: 1 }} />
-              <Typography variant="body1">Status: {client.status}</Typography>
-            </Box>
-
-            <Box display="flex" alignItems="center">
-              <CalendarTodayIcon color="primary" sx={{ mr: 1 }} />
-              <Typography variant="body1">
-                Added At: {new Date(client.addedAt).toLocaleDateString()}
+            <Box
+              sx={{
+                maxWidth: 400,
+                p: 3,
+                m: 2,
+                backgroundColor: "#fafafa",
+                borderRadius: 3,
+              }}
+            >
+              <Typography
+                variant="h5"
+                gutterBottom
+                sx={{ color: "#333", fontWeight: "bold", textAlign: "center" }}
+              >
+                {client.company}
               </Typography>
+              <Divider sx={{ mb: 2 }} />
+
+              <Box display="flex" alignItems="center" mb={2}>
+                <PhoneIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" sx={{ color: "#555" }}>
+                  {client.phone}
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={2}>
+                <EmailIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" sx={{ color: "#555" }}>
+                  {client.email}
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={2}>
+                <BusinessIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" sx={{ color: "#555" }}>
+                  Status:{" "}
+                  <Box
+                    component="span"
+                    fontWeight="bold"
+                    color="secondary.main"
+                  >
+                    {client.status}
+                  </Box>
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center">
+                <CalendarTodayIcon color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" sx={{ color: "#555" }}>
+                  Added At:{" "}
+                  <Box component="span" fontWeight="medium">
+                    {new Date(client.addedAt).toLocaleDateString()}
+                  </Box>
+                </Typography>
+              </Box>
             </Box>
+            {/* <Box display="flex" alignItems="center" paddingRight={30} px>
+              <CalendarTodayIcon color="primary" sx={{ mr: 1 }} />
+              <Typography variant="body1" sx={{ color: "#555" }}>
+                Added At:{" "}
+                <Box component="span" fontWeight="medium">
+                  {new Date(client.addedAt).toLocaleDateString()}
+                </Box>
+              </Typography>
+            </Box> */}
           </Box>
         </Grid>
 
