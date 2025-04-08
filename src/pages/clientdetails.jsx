@@ -42,7 +42,7 @@ const ClientDetails = () => {
     if (token) {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
-      console.log(decoded.role, ",defined Role Of this User");
+      // console.log(decoded.role, ",defined Role Of this User");
     }
   }, []);
 
@@ -52,7 +52,7 @@ const ClientDetails = () => {
 
       setNewFollowers(client.followers);
       setViews(client.views);
-      console.log(newFollowers, "leads");
+      // console.log(newFollowers, "leads");
     }
   }, [client]);
 
