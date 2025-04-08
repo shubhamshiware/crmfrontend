@@ -289,46 +289,61 @@ const ProfilePage = () => {
     <Box display="flex" justifyContent="center" mt={5}>
       <Card
         sx={{
-          maxWidth: 300,
-          m: 2,
-          p: 2,
-          backgroundColor: "#f5f5f5",
+          maxWidth: 320,
+          p: 3,
+          backgroundColor: "#ffffff",
+          borderRadius: 4,
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
           textAlign: "center",
+          transition: "transform 0.3s",
+          "&:hover": {
+            transform: "translateY(-5px)",
+          },
         }}
       >
         <CardContent>
-          <Typography variant="h6" color="primary">
+          <Typography variant="h6" color="primary" gutterBottom>
             Earned Points
           </Typography>
 
-          <Typography variant="h4" fontWeight="bold">
+          <Typography
+            variant="h3"
+            fontWeight="bold"
+            color="text.primary"
+            gutterBottom
+          >
             {averagePoints}
           </Typography>
 
           <Typography
-            variant="body3"
-            color={
-              performance === "Good Performance"
-                ? "green"
-                : performance === "Average Performance"
-                  ? "orange"
-                  : "red"
-            }
+            variant="subtitle1"
+            fontWeight="medium"
+            sx={{
+              color:
+                performance === "Good Performance"
+                  ? "green"
+                  : performance === "Average Performance"
+                    ? "orange"
+                    : "red",
+              mb: 2,
+            }}
           >
             {performance}
           </Typography>
-          <Typography>
-            {" "}
-            <br></br>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={navigateToss}
-              sx={{ marginBottom: 2 }}
-            >
-              Attandence
-            </Button>{" "}
-          </Typography>
+
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={navigateToss}
+            sx={{
+              borderRadius: 3,
+              textTransform: "none",
+              fontWeight: "bold",
+              px: 4,
+            }}
+          >
+            Attendance
+          </Button>
         </CardContent>
       </Card>
       <Card sx={{ width: "70%", p: 3, boxShadow: 3, borderRadius: 3 }}>
