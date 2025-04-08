@@ -635,9 +635,3 @@ const ClientDetails = () => {
 };
 
 export default ClientDetails;
-
-//client fetch + data utilise - done
-//image upload - done
-//status change - done
-//handel payment - done
-// handel package - partialy remaining

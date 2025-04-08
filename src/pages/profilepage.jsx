@@ -455,102 +455,121 @@ const ProfilePage = () => {
           {/* Task List */}
           <Box mt={3}>
             {tasks.map((task, index) => (
-              <Card key={task._id} sx={{ p: 2, mb: 2, boxShadow: 3 }}>
-                <Box display="flex" alignItems="center">
-                  <Checkbox
-                    checked={task.completed || false}
-                    onChange={() =>
-                      handleToggleTask(index, task._id, task.completed)
-                    }
-                    sx={{
-                      color: task.completed ? "green" : "gray",
-                      "&.Mui-checked": {
-                        color: "green",
-                      },
-                    }}
-                  />
-
-                  <Box sx={{ flexGrow: 1 }}>
+              <Box
+                key={task._id}
+                p={2}
+                mt={2}
+                border="1px solid #ccc"
+                borderRadius={2}
+                display="flex"
+                flexDirection="column"
+                position="relative"
+              >
+                {/* ✅ Top Row with Checkbox + Title and Due Date */}
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Box display="flex" alignItems="center">
+                    <Checkbox
+                      checked={task.completed || false}
+                      onChange={() =>
+                        handleToggleTask(index, task._id, task.completed)
+                      }
+                      sx={{
+                        color: task.completed ? "green" : "gray",
+                        "&.Mui-checked": {
+                          color: "green",
+                        },
+                      }}
+                    />
                     {editIndex === index ? (
                       <TextField
-                        fullWidth
                         value={editText}
                         onChange={(e) => setEditText(e.target.value)}
+                        sx={{ flexGrow: 1 }}
                       />
                     ) : (
                       <Typography
-                        variant="h6"
+                        variant="body1"
                         sx={{
                           textDecoration: task.completed
                             ? "line-through"
                             : "none",
                         }}
                       >
-                        {task.task || task.update || "No Task Title"}
-                      </Typography>
-                    )}
-                    <box
-                      display="flex"
-                      flexDirection="colum"
-                      alignItems="right"
-                      justifyContent="right"
-                    >
-                      <Typography
-                        variant="body2"
-                        color={task.completed ? "green" : "orange"}
-                      >
-                        {task.completed ? "Completed" : "Not Completed"}
-                      </Typography>
-                    </box>
-
-                    {task.uploadedAt && (
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        mt={0.5}
-                      >
-                        Due date -{" "}
-                        {new Date(task.uploadedAt).toLocaleDateString()}
+                        {task.update}
                       </Typography>
                     )}
                   </Box>
 
-                  {userData?.role === "admin" && (
-                    <Box>
-                      {editIndex === index ? (
-                        <Button
-                          color="primary"
-                          onClick={() => handleEditTask(index, task._id)}
-                        >
-                          Save
-                        </Button>
-                      ) : (
-                        <>
-                          <IconButton
-                            color="primary"
-                            onClick={() => handleEditClick(index)}
-                          >
-                            <Edit />
-                          </IconButton>
-                          <IconButton
-                            color="error"
-                            onClick={() => handleDeleteTask(task._id)}
-                          >
-                            <Delete />
-                          </IconButton>
-                        </>
-                      )}
-                    </Box>
+                  {/* ✅ Due Date - Top Right */}
+                  <Typography
+                    variant="body2"
+                    color={task.completed ? "green" : "orange"}
+                  >
+                    {task.completed ? "Completed" : "Not Completed"}
+                  </Typography>
+                </Box>
+
+                {/* ✅ Status Row */}
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mt={1}
+                >
+                  {/* You can add description here if available */}
+                  <Typography variant="body2">
+                    {task.description || ""}
+                  </Typography>
+
+                  {/* ✅ Status */}
+                  {/* <Typography
+                    variant="body2"
+                    color={task.completed ? "green" : "orange"}
+                  >
+                    {task.completed ? "Completed" : "Not Completed"}
+                  </Typography> */}
+                  {task.uploadedAt && (
+                    <Typography variant="body2" color="text.secondary">
+                      Due date -{" "}
+                      {new Date(task.uploadedAt).toLocaleDateString()}
+                    </Typography>
                   )}
                 </Box>
 
-                {/* Due Date */}
-                {/* {task.uploadedAt && (
-                  <Typography variant="caption" color="text.secondary" mt={1}>
-                    Due: {new Date(task.uploadedAt).toLocaleDateString()}
-                  </Typography>
-                )} */}
-              </Card>
+                {/* ✅ Action Buttons (Edit/Delete) */}
+                {userData?.role === "admin" && (
+                  <Box mt={1} textAlign="right">
+                    {editIndex === index ? (
+                      <Button
+                        color="primary"
+                        onClick={() => handleEditTask(index, task._id)}
+                      >
+                        Save
+                      </Button>
+                    ) : (
+                      <>
+                        <IconButton
+                          color="primary"
+                          onClick={() => handleEditClick(index)}
+                        >
+                          <Edit />
+                        </IconButton>
+
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDeleteTask(task._id)}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </>
+                    )}
+                  </Box>
+                )}
+              </Box>
             ))}
           </Box>
         </Box>
