@@ -28,11 +28,17 @@ const Header = ({ toggleSidebar }) => {
       }
     };
   });
+  console.log(handelServer, "server detalis");
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "#1976d2" }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        {/* Left: Hamburger Menu Icon */}
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          paddingLeft: "45",
+        }}
+      >
         <IconButton
           edge="start"
           color="inherit"
@@ -42,12 +48,10 @@ const Header = ({ toggleSidebar }) => {
           <MenuIcon />
         </IconButton>
 
-        {/* Middle: App Title */}
         <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
           My App
         </Typography>
 
-        {/* Right: Signup Button */}
         <Button
           variant="contained"
           color="primery"
