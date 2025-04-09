@@ -527,7 +527,6 @@ const ProfilePage = () => {
                     {task.completed ? "Completed" : "Not Completed"}
                   </Typography>
                 </Box>
-
                 {/* ✅ Status Row */}
                 <Box
                   display="flex"
@@ -535,13 +534,13 @@ const ProfilePage = () => {
                   alignItems="center"
                   mt={1}
                 >
-                  {/* You can add description here if available */}
                   <Typography variant="body2">
                     {task.description || ""}
                   </Typography>
 
                   {/* ✅ Status */}
                   {/* <Typography
+                  aadil 
                     variant="body2"
                     color={task.completed ? "green" : "orange"}
                   >
@@ -594,8 +593,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-
-//remaining task - providing edit option on profile section
-//               - modify add task remove input give button only and after click it shold appear with input and discription box
-//               - need to modify todo section
-//               -

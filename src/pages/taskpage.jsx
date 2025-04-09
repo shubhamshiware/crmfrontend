@@ -256,22 +256,33 @@ const TaskPage = () => {
     <Box display="flex" justifyContent="center" mt={5}>
       <Card
         sx={{
-          maxWidth: 300,
-          m: 2,
-          p: 2,
-          backgroundColor: "#f5f5f5",
+          maxWidth: 320,
+          p: 3,
+          backgroundColor: "#ffffff",
+          borderRadius: 4,
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
           textAlign: "center",
+          transition: "transform 0.3s",
+          "&:hover": {
+            transform: "translateY(-5px)",
+          },
         }}
       >
         <CardContent>
-          <Typography variant="h6" color="primary">
-            Average Points
+          <Typography variant="h6" color="primary" gutterBottom>
+            Earned Points
           </Typography>
-          <Typography variant="h4" fontWeight="bold">
+          <Typography
+            variant="h3"
+            fontWeight="bold"
+            color="text.primary"
+            gutterBottom
+          >
             {averagePoints}
           </Typography>
           <Typography
-            variant="body1"
+            variant="subtitle1"
+            fontWeight="medium"
             color={
               performance === "Good Performance"
                 ? "green"
@@ -288,7 +299,12 @@ const TaskPage = () => {
               variant="contained"
               color="primary"
               onClick={handleNavigation}
-              sx={{ marginBottom: 2 }}
+              sx={{
+                borderRadius: 3,
+                textTransform: "none",
+                fontWeight: "bold",
+                px: 4,
+              }}
             >
               Attandence
             </Button>{" "}
@@ -408,62 +424,106 @@ const TaskPage = () => {
 
           <Box mt={3}>
             {tasks.map((task, index) => (
-              <Box key={task._id} display="flex" alignItems="center" mt={1}>
-                <Checkbox
-                  checked={task.completed || false}
-                  onChange={() =>
-                    handleToggleTask(index, task._id, task.completed)
-                  }
-                  sx={{
-                    color: task.completed ? "green" : "gray",
-                    "&.Mui-checked": {
-                      color: "green",
-                    },
-                  }}
-                />
+              <Box
+                key={task._id}
+                p={2}
+                mt={2}
+                border="1px solid #ccc"
+                borderRadius={2}
+                display="flex"
+                flexDirection="column"
+                position="relative"
+              >
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Box display="flex" alignItems="center">
+                    <Checkbox
+                      checked={task.completed || false}
+                      onChange={() =>
+                        handleToggleTask(index, task._id, task.completed)
+                      }
+                      sx={{
+                        color: task.completed ? "green" : "gray",
+                        "&.Mui-checked": {
+                          color: "green",
+                        },
+                      }}
+                    />
 
-                {editIndex === index ? (
-                  <TextField
-                    value={editText}
-                    onChange={(e) => setEditText(e.target.value)}
-                    sx={{ flexGrow: 1 }}
-                  />
-                ) : (
+                    {editIndex === index ? (
+                      <TextField
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        sx={{ flexGrow: 1 }}
+                      />
+                    ) : (
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          flexGrow: 1,
+                          textDecoration: task.completed
+                            ? "line-through"
+                            : "none",
+                        }}
+                      >
+                        {task.update}
+                      </Typography>
+                    )}
+                  </Box>
                   <Typography
-                    variant="body1"
-                    sx={{
-                      flexGrow: 1,
-                      textDecoration: task.completed ? "line-through" : "none",
-                    }}
+                    variant="body2"
+                    color={task.completed ? "green" : "orange"}
                   >
-                    {task.update}
+                    {task.completed ? "Completed" : "Not Completed"}
                   </Typography>
-                )}
+                </Box>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mt={1}
+                >
+                  <Typography variant="body2">
+                    {task.description || ""}
+                  </Typography>
+
+                  {task.uploadedAt && (
+                    <Typography variant="body2" color="text.secondary">
+                      Due date -{" "}
+                      {new Date(task.uploadedAt).toLocaleDateString()}
+                    </Typography>
+                  )}
+                </Box>
 
                 <>
-                  {editIndex === index ? (
-                    <Button
-                      color="primary"
-                      onClick={() => handleEditTask(index, task._id)}
-                    >
-                      Save
-                    </Button>
-                  ) : (
-                    <>
-                      <IconButton
+                  <Box mt={1} textAlign="right">
+                    {editIndex === index ? (
+                      <Button
                         color="primary"
-                        onClick={() => handleEditClick(index)}
+                        onClick={() => handleEditTask(index, task._id)}
                       >
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        color="error"
-                        onClick={() => handleDeleteTask(task._id)}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </>
-                  )}
+                        Save
+                      </Button>
+                    ) : (
+                      <>
+                        <IconButton
+                          color="primary"
+                          onClick={() => handleEditClick(index)}
+                        >
+                          <Edit />
+                        </IconButton>
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDeleteTask(task._id)}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </>
+                    )}
+                  </Box>
                 </>
               </Box>
             ))}
