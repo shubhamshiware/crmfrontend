@@ -285,6 +285,11 @@ const ProfilePage = () => {
     navigate("/att");
   };
 
+  const videoCall = () => {
+    navigate(`/video-call/${userId || "support-room"}`);
+  };
+  // navigate(`/video-call/${userId || "support-room"}`);
+
   return (
     <Box display="flex" justifyContent="center" mt={5}>
       <Card
@@ -344,7 +349,11 @@ const ProfilePage = () => {
           >
             Attendance
           </Button>
+          <br></br>
         </CardContent>
+        <Button variant="contained" color="success" onClick={videoCall}>
+          Start Video Call
+        </Button>
       </Card>
       <Card sx={{ width: "70%", p: 3, boxShadow: 3, borderRadius: 3 }}>
         <Box display="flex">
