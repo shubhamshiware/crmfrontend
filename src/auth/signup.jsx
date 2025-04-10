@@ -8,6 +8,8 @@ const SignupPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
+    name: "",
+    about: "",
     email: "",
     password: "",
   });
@@ -22,17 +24,51 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { username, name, about, email, password } = formData;
+
+    // 🛡️ Validations
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (name.trim().length < 8) {
+      setMessage("Name must be at least 8 characters.");
+      setSuccess(false);
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      setMessage("Enter a valid email address.");
+      setSuccess(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setMessage("Password must be at least 6 characters.");
+      setSuccess(false);
+      return;
+    }
+
+    if (!username.trim()) {
+      setMessage("Username is required.");
+      setSuccess(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         "https://crmback-tjvw.onrender.com/auth/signup",
         formData
       );
 
-      // If the backend returns success, update the message and reset form
       if (response.data.message === "Success") {
         setMessage("Your account has been created successfully!");
         setSuccess(true);
-        setFormData({ username: "", email: "", password: "" });
+        setFormData({
+          username: "",
+          name: "",
+          about: "",
+          email: "",
+          password: "",
+        });
         navigate("/dashboard");
       } else {
         setMessage(response.data.message || "Signup failed. Please try again.");
@@ -54,6 +90,7 @@ const SignupPage = () => {
         justifyContent: "center",
         minHeight: "100vh",
         backgroundColor: "#f5f5f5",
+        px: 2,
       }}
     >
       <Box
@@ -70,7 +107,7 @@ const SignupPage = () => {
           Sign Up
         </Typography>
 
-        {/* Success/Error Alert */}
+        {/* ✅ Message Alert */}
         {message && (
           <Alert
             severity={success ? "success" : "error"}
@@ -99,6 +136,7 @@ const SignupPage = () => {
             onChange={handleChange}
             margin="normal"
             required
+            helperText="At least 8 characters"
           />
           <TextField
             fullWidth
@@ -129,6 +167,7 @@ const SignupPage = () => {
             onChange={handleChange}
             margin="normal"
             required
+            helperText="Minimum 6 characters"
           />
           <Button
             type="submit"
@@ -146,5 +185,3 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
-
-//thise component has hirechy issue needs to be corected
