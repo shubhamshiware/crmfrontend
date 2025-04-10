@@ -7,6 +7,7 @@ import {
   Typography,
   CircularProgress,
 } from "@mui/material";
+// import { jwtDecode } from "jwt-decode";
 
 const Editclient = () => {
   const { id } = useParams(); // Extract client ID from the URL
@@ -14,6 +15,18 @@ const Editclient = () => {
   const [client, setClient] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("authToken");
+  //   if (token) {
+  //     try {
+  //       const decoded = jwtDecode(token);
+  //       setUserRole(decoded.role);
+  //     } catch (error) {
+  //       console.error("Error decoding token:", error);
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     const fetchClient = async () => {

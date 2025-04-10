@@ -19,7 +19,6 @@ const Clients = () => {
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState(null);
 
-  // Decode JWT to extract role
   useEffect(() => {
     const token = localStorage.getItem("authToken");
 
@@ -46,7 +45,7 @@ const Clients = () => {
         throw new Error("Failed to fetch clients");
       }
       const result = await response.json();
-      // console.log(result, "clientss");
+
       setClients(result.data);
     } catch (err) {
       setError(err.message);
@@ -182,7 +181,7 @@ const Clients = () => {
   ];
 
   const rows = clients.map((client) => ({
-    id: client._id, // Use the actual unique ID from your backend
+    id: client._id,
     company: client.company,
     phone: client.phone,
     email: client.email,

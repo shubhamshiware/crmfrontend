@@ -52,7 +52,6 @@ const ClientDetails = () => {
 
       setNewFollowers(client.followers);
       setViews(client.views);
-      // console.log(newFollowers, "leads");
     }
   }, [client]);
 
@@ -341,7 +340,7 @@ const ClientDetails = () => {
                 width="100%"
                 paddingleft="10px"
               >
-                {userRole === "author" && (
+                {(userRole === "author" || userRole === "admin") && (
                   <>
                     <input
                       type="file"
@@ -586,7 +585,7 @@ const ClientDetails = () => {
               Followers Increased: {client.followers}%
             </Typography>
           </Box>
-          {userRole === "author" && (
+          {(userRole === "author" || userRole === "admin") && (
             <>
               <Button
                 variant="contained"
@@ -613,7 +612,7 @@ const ClientDetails = () => {
               Remaining Amount: {client.package}
             </Typography>
           </Box>
-          {userRole === "author" && (
+          {(userRole === "author" || userRole === "admin") && (
             <>
               <Typography variant="h5" gutterBottom>
                 Update Payment
