@@ -155,7 +155,7 @@ const Attendance = () => {
         </p>
       )}
 
-      <h3>Attendance Calendar</h3>
+      <h3>Attendance Calender</h3>
       <div style={{ height: 500, width: "80%", margin: "auto" }}>
         <BigCalendar
           localizer={localizer}
@@ -170,6 +170,3 @@ const Attendance = () => {
 };
 
 export default Attendance;
-
-//there is work remaining for task page we need to make arrangemnts for the id of user will
-// will come with location
