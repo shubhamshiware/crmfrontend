@@ -285,10 +285,14 @@ const ProfilePage = () => {
     navigate("/att");
   };
 
+  const navigateChat = () => {
+    navigate("/chat");
+  };
   const videoCall = () => {
     navigate(`/video-call/${userId || "support-room"}`);
   };
   // navigate(`/video-call/${userId || "support-room"}`);
+  ///chat
 
   return (
     <Box display="flex" justifyContent="center" mt={5}>
@@ -353,6 +357,10 @@ const ProfilePage = () => {
         </CardContent>
         <Button variant="contained" color="success" onClick={videoCall}>
           Start Video Call
+        </Button>
+        <br></br>
+        <Button variant="contained" color="success" onClick={navigateChat}>
+          Start Chat
         </Button>
       </Card>
       <Card sx={{ width: "70%", p: 3, boxShadow: 3, borderRadius: 3 }}>
