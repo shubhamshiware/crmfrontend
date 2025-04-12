@@ -15,6 +15,18 @@ import axios from "axios";
 
 const socket = io("https://crmback-tjvw.onrender.com"); // replace with your backend URL
 
+// Join a chat room
+let chatId = 1123;
+socket.emit("join chat", chatId);
+
+// Send message
+socket.emit("new message");
+
+// Listen for new message
+socket.on("message received", () => {
+  console.log("New incoming message");
+});
+
 const ChatApp = () => {
   const [user, setUser] = useState({ _id: "user1", name: "User One" }); // Dummy user
   const [selectedChat, setSelectedChat] = useState(null);
@@ -33,17 +45,38 @@ const ChatApp = () => {
   }, [selectedChat]);
 
   const fetchChats = async () => {
-    const { data } = await axios.get("https://crmback-tjvw.onrender.com/chat");
-    setChats(data);
+    const token = localStorage.getItem("authToken");
+    console.log(token, "token in chat");
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        "https://crmback-tjvw.onrender.com/chat",
+        config
+      );
+      setChats(data);
+    } catch (err) {
+      console.error(
+        "Failed to fetch chats:",
+        err.response?.data || err.message
+      );
+    }
   };
 
-  const fetchMessages = async (chatId) => {
-    const { data } = await axios.get(
-      `https://crmback-tjvw.onrender.com/${chatId}`
-    );
-    setMessages(data);
-    setSelectedChat(chats.find((c) => c._id === chatId));
-    socket.emit("join chat", chatId);
+  //   const fetchMessages = async (chatId) => {
+  //     const { data } = await axios.get(
+  //       `https://crmback-tjvw.onrender.com/${chatId}`
+  //     );
+  //     setMessages(data);
+  //     setSelectedChat(chats.find((c) => c._id === chatId));
+  //     socket.emit("join chat", chatId);
+  //   };
+  const fetchMessages = () => {
+    console.log("fetchmessage");
   };
 
   const sendMessage = async () => {
