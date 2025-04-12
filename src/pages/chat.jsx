@@ -45,26 +45,26 @@ const ChatApp = () => {
   }, [selectedChat]);
 
   const fetchChats = async () => {
-    const token = localStorage.getItem("authToken");
-    console.log(token, "token in chat");
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const { data } = await axios.get(
-        "https://crmback-tjvw.onrender.com/chat",
-        config
-      );
-      setChats(data);
-    } catch (err) {
-      console.error(
-        "Failed to fetch chats:",
-        err.response?.data || err.message
-      );
-    }
+    console.log("fetch chats");
+    // const token = localStorage.getItem("authToken");
+    // console.log(token, "token in chat");
+    // try {
+    //   const config = {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   };
+    //   const { data } = await axios.get(
+    //     "https://crmback-tjvw.onrender.com/chat",
+    //     config
+    //   );
+    //   setChats(data);
+    // } catch (err) {
+    //   console.error(
+    //     "Failed to fetch chats:",
+    //     err.response?.data || err.message
+    //   );
+    // }
   };
 
   //   const fetchMessages = async (chatId) => {
@@ -80,18 +80,19 @@ const ChatApp = () => {
   };
 
   const sendMessage = async () => {
-    if (!newMessage.trim()) return;
-    const { data } = await axios.post(
-      "https://crmback-tjvw.onrender.com/message",
-      {
-        content: newMessage,
-        chatId: selectedChat._id,
-        sender: user._id,
-      }
-    );
-    socket.emit("new message", data);
-    setMessages([...messages, data]);
-    setNewMessage("");
+    console.log("mesage sent");
+    // if (!newMessage.trim()) return;
+    // const { data } = await axios.post(
+    //   "https://crmback-tjvw.onrender.com/message",
+    //   {
+    //     content: newMessage,
+    //     chatId: selectedChat._id,
+    //     sender: user._id,
+    //   }
+    // );
+    // socket.emit("new message", data);
+    // setMessages([...messages, data]);
+    // setNewMessage("");
   };
 
   return (
