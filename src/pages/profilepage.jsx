@@ -285,9 +285,9 @@ const ProfilePage = () => {
     navigate("/att");
   };
 
-  const navigateChat = () => {
-    navigate("/chat");
-  };
+  // const navigateChat = () => {
+  //   navigate("/chat");
+  // };
   const videoCall = () => {
     navigate(`/video-call/${userId || "support-room"}`);
   };
@@ -359,9 +359,9 @@ const ProfilePage = () => {
           Start Video Call
         </Button>
         <br></br>
-        <Button variant="contained" color="success" onClick={navigateChat}>
+        {/* <Button variant="contained" color="success" onClick={navigateChat}>
           Start Chat
-        </Button>
+        </Button> */}
       </Card>
       <Card sx={{ width: "70%", p: 3, boxShadow: 3, borderRadius: 3 }}>
         <Box display="flex">
