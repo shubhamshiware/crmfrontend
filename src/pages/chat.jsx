@@ -1,159 +1,158 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
+  Container,
   Box,
   Typography,
-  TextField,
-  Button,
   List,
   ListItem,
   ListItemText,
-  Divider,
-  Paper,
+  TextField,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Checkbox,
+  ListItemIcon,
 } from "@mui/material";
-import io from "socket.io-client";
-import axios from "axios";
-
-const socket = io("https://crmback-tjvw.onrender.com"); // replace with your backend URL
-
-// Join a chat room
-let chatId = 1123;
-socket.emit("join chat", chatId);
-
-// Send message
-socket.emit("new message");
-
-// Listen for new message
-socket.on("message received", () => {
-  console.log("New incoming message");
-});
 
 const ChatApp = () => {
-  const [user, setUser] = useState({ _id: "user1", name: "User One" }); // Dummy user
-  const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const [groupName, setGroupName] = useState("");
+  const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const fetchChats = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(
+        "https://crmback-tjvw.onrender.com/chat",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setChats(data);
+    } catch (err) {
+      console.error("Failed to fetch chats:", err);
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.get(
+        "https://crmback-tjvw.onrender.com/auth/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUsers(data);
+    } catch (err) {
+      console.error("Failed to fetch users:", err);
+    }
+  };
+
+  const handleCreateGroup = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const { data } = await axios.post(
+        "https://crmback-tjvw.onrender.com/chat/group",
+        {
+          name: groupName,
+          users: JSON.stringify(selectedUsers),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setChats([data, ...chats]);
+      setOpen(false);
+    } catch (err) {
+      console.error("Failed to create group:", err);
+    }
+  };
+
+  const toggleUser = (id) => {
+    setSelectedUsers((prev) =>
+      prev.includes(id) ? prev.filter((u) => u !== id) : [...prev, id]
+    );
+  };
 
   useEffect(() => {
     fetchChats();
-    socket.emit("setup", user);
-    socket.on("message received", (newMsg) => {
-      if (newMsg.chat._id === selectedChat?._id) {
-        setMessages((prev) => [...prev, newMsg]);
-      }
-    });
-  }, [selectedChat]);
-
-  const fetchChats = async () => {
-    console.log("fetch chats");
-    // const token = localStorage.getItem("authToken");
-    // console.log(token, "token in chat");
-    // try {
-    //   const config = {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   };
-    //   const { data } = await axios.get(
-    //     "https://crmback-tjvw.onrender.com/chat",
-    //     config
-    //   );
-    //   setChats(data);
-    // } catch (err) {
-    //   console.error(
-    //     "Failed to fetch chats:",
-    //     err.response?.data || err.message
-    //   );
-    // }
-  };
-
-  //   const fetchMessages = async (chatId) => {
-  //     const { data } = await axios.get(
-  //       `https://crmback-tjvw.onrender.com/${chatId}`
-  //     );
-  //     setMessages(data);
-  //     setSelectedChat(chats.find((c) => c._id === chatId));
-  //     socket.emit("join chat", chatId);
-  //   };
-  const fetchMessages = () => {
-    console.log("fetchmessage");
-  };
-
-  const sendMessage = async () => {
-    console.log("mesage sent");
-    // if (!newMessage.trim()) return;
-    // const { data } = await axios.post(
-    //   "https://crmback-tjvw.onrender.com/message",
-    //   {
-    //     content: newMessage,
-    //     chatId: selectedChat._id,
-    //     sender: user._id,
-    //   }
-    // );
-    // socket.emit("new message", data);
-    // setMessages([...messages, data]);
-    // setNewMessage("");
-  };
+    fetchUsers();
+  }, []);
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", p: 2, gap: 2 }}>
-      <Paper sx={{ width: "30%", p: 2 }}>
-        <Typography variant="h6" gutterBottom>
-          Chats
-        </Typography>
-        <List>
-          {chats.map((chat) => (
-            <ListItem
-              button
-              key={chat._id}
-              onClick={() => fetchMessages(chat._id)}
-            >
-              <ListItemText primary={chat.chatName} />
-            </ListItem>
-          ))}
-        </List>
-      </Paper>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        My Chats
+      </Typography>
 
-      <Paper
-        sx={{ flexGrow: 1, p: 2, display: "flex", flexDirection: "column" }}
-      >
-        <Typography variant="h6">
-          {selectedChat ? selectedChat.chatName : "Select a chat"}
-        </Typography>
-        <Divider sx={{ my: 1 }} />
-        <Box sx={{ flexGrow: 1, overflowY: "auto", mb: 2 }}>
-          {messages.map((msg, index) => (
-            <Typography
-              key={index}
-              sx={{
-                my: 1,
-                backgroundColor:
-                  msg.sender === user._id ? "#e1f5fe" : "#fce4ec",
-                p: 1.5,
-                borderRadius: 1,
-              }}
-            >
-              <strong>{msg.sender === user._id ? "You" : msg.sender}</strong>:{" "}
-              {msg.content}
-            </Typography>
-          ))}
-        </Box>
-        {selectedChat && (
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <TextField
-              fullWidth
-              label="Type a message"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+      <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
+        Create Group Chat
+      </Button>
+
+      <List>
+        {chats.map((chat) => (
+          <ListItem key={chat._id} divider>
+            <ListItemText
+              primary={chat.chatName || "Unnamed Chat"}
+              secondary={
+                chat.isGroupChat
+                  ? `Group Admin: ${chat.groupAdmin?.name}`
+                  : chat.users.map((u) => u.name).join(", ")
+              }
             />
-            <Button variant="contained" onClick={sendMessage}>
-              Send
-            </Button>
-          </Box>
-        )}
-      </Paper>
-    </Box>
+          </ListItem>
+        ))}
+      </List>
+
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Create Group Chat</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            label="Group Name"
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
+            margin="normal"
+          />
+          <List>
+            {users.map((user) => (
+              <ListItem
+                key={user._id}
+                button
+                onClick={() => toggleUser(user._id)}
+              >
+                <ListItemIcon>
+                  <Checkbox checked={selectedUsers.includes(user._id)} />
+                </ListItemIcon>
+                <ListItemText primary={user.name} />
+              </ListItem>
+            ))}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button
+            onClick={handleCreateGroup}
+            variant="contained"
+            color="primary"
+          >
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Container>
   );
 };
 

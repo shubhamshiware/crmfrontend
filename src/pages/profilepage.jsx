@@ -283,6 +283,7 @@ const ProfilePage = () => {
 
   const navigateToss = () => {
     navigate("/att");
+    console.log("uuu");
   };
 
   // const navigateChat = () => {
