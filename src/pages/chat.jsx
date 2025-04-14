@@ -44,6 +44,7 @@ const ChatApp = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken");
+      console.log(token, "frontend token");
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/auth/",
         {
@@ -60,7 +61,7 @@ const ChatApp = () => {
 
   const handleCreateGroup = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const { data } = await axios.post(
         "https://crmback-tjvw.onrender.com/chat/group",
         {
