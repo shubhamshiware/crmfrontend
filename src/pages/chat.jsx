@@ -26,7 +26,7 @@ const ChatApp = () => {
 
   const fetchChats = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/chat",
         {
@@ -43,7 +43,7 @@ const ChatApp = () => {
 
   const fetchUsers = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/auth/",
         {
