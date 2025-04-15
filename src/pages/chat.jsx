@@ -63,11 +63,9 @@ const ChatApp = () => {
       console.error("Failed to fetch chats:", err);
     }
   };
-
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      console.log(token, "frontend token");
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/auth/",
         {
@@ -76,9 +74,11 @@ const ChatApp = () => {
           },
         }
       );
-      setUsers(data);
+      console.log("Users fetched:", data);
+      setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch users:", err);
+      setUsers([]); // fallback to empty array on error
     }
   };
 
@@ -156,20 +156,21 @@ const ChatApp = () => {
             margin="normal"
           />
           <List>
-            {users
-              .filter((user) => user._id !== loggedInUser?._id) // exclude yourself
-              .map((user) => (
-                <ListItem
-                  key={user._id}
-                  button
-                  onClick={() => toggleUser(user._id)}
-                >
-                  <ListItemIcon>
-                    <Checkbox checked={selectedUsers.includes(user._id)} />
-                  </ListItemIcon>
-                  <ListItemText primary={user.name} />
-                </ListItem>
-              ))}
+            {Array.isArray(users) &&
+              users
+                .filter((user) => user._id !== loggedInUser?._id)
+                .map((user) => (
+                  <ListItem
+                    key={user._id}
+                    button
+                    onClick={() => toggleUser(user._id)}
+                  >
+                    <ListItemIcon>
+                      <Checkbox checked={selectedUsers.includes(user._id)} />
+                    </ListItemIcon>
+                    <ListItemText primary={user.name} />
+                  </ListItem>
+                ))}
           </List>
         </DialogContent>
         <DialogActions>
