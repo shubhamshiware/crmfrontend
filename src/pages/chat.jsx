@@ -60,13 +60,18 @@ const ChatApp = () => {
   };
 
   const handleCreateGroup = async () => {
+    if (selectedUsers.length < 2) {
+      alert("Please select at least 2 users to create a group chat");
+      return;
+    }
+
     try {
       const token = localStorage.getItem("authToken");
       const { data } = await axios.post(
         "https://crmback-tjvw.onrender.com/chat/group",
         {
           name: groupName,
-          users: JSON.stringify(selectedUsers),
+          users: selectedUsers,
         },
         {
           headers: {
