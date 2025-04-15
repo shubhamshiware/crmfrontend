@@ -133,19 +133,18 @@ const ChatApp = () => {
             margin="normal"
           />
           <List>
-            {Array.isArray(chats) &&
-              chats.map((chat) => (
-                <ListItem key={chat._id} divider>
-                  <ListItemText
-                    primary={chat.chatName || "Unnamed Chat"}
-                    secondary={
-                      chat.isGroupChat
-                        ? `Group Admin: ${chat.groupAdmin?.name || "N/A"}`
-                        : Array.isArray(chat.users)
-                          ? chat.users.map((u) => u.name).join(", ")
-                          : "No users"
-                    }
-                  />
+            {users
+              .filter((user) => user._id !== loggedInUser?._id) // exclude yourself
+              .map((user) => (
+                <ListItem
+                  key={user._id}
+                  button
+                  onClick={() => toggleUser(user._id)}
+                >
+                  <ListItemIcon>
+                    <Checkbox checked={selectedUsers.includes(user._id)} />
+                  </ListItemIcon>
+                  <ListItemText primary={user.name} />
                 </ListItem>
               ))}
           </List>
