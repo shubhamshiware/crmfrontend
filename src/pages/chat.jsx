@@ -128,18 +128,21 @@ const ChatApp = () => {
             margin="normal"
           />
           <List>
-            {users.map((user) => (
-              <ListItem
-                key={user._id}
-                button
-                onClick={() => toggleUser(user._id)}
-              >
-                <ListItemIcon>
-                  <Checkbox checked={selectedUsers.includes(user._id)} />
-                </ListItemIcon>
-                <ListItemText primary={user.name} />
-              </ListItem>
-            ))}
+            {Array.isArray(chats) &&
+              chats.map((chat) => (
+                <ListItem key={chat._id} divider>
+                  <ListItemText
+                    primary={chat.chatName || "Unnamed Chat"}
+                    secondary={
+                      chat.isGroupChat
+                        ? `Group Admin: ${chat.groupAdmin?.name || "N/A"}`
+                        : Array.isArray(chat.users)
+                          ? chat.users.map((u) => u.name).join(", ")
+                          : "No users"
+                    }
+                  />
+                </ListItem>
+              ))}
           </List>
         </DialogContent>
         <DialogActions>
