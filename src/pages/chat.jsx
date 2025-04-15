@@ -18,15 +18,38 @@ import {
 } from "@mui/material";
 
 const ChatApp = () => {
+  const parseJwt = (token) => {
+    if (!token) return null;
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      return JSON.parse(atob(base64));
+    } catch (e) {
+      console.error("Invalid token", e);
+      return null;
+    }
+  };
+
   const [chats, setChats] = useState([]);
   const [open, setOpen] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    const user = parseJwt(token);
+    setLoggedInUser(user);
+    fetchChats();
+    fetchUsers();
+  }, []);
+
   const fetchChats = async () => {
     try {
       const token = localStorage.getItem("authToken");
+
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/chat",
         {
