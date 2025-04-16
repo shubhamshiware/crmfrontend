@@ -175,13 +175,16 @@ const ChatApp = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button
-            onClick={handleCreateGroup}
-            variant="contained"
-            color="primary"
-          >
-            Create
-          </Button>
+          {users.filter((user) => user._id !== loggedInUser?._id).length >=
+            2 && (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpen(true)}
+            >
+              Create Group Chat
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </Container>
