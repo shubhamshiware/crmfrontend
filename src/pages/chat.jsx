@@ -18,7 +18,7 @@ const ChatApp = () => {
   const fetchUsers = async () => {
     try {
       const { data } = await axios.get(
-        "https://crmback-tjvw.onrender.com/user",
+        "https://crmback-tjvw.onrender.com/auth/",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

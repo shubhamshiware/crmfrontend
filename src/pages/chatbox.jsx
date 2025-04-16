@@ -9,7 +9,7 @@ const ChatBox = ({ user }) => {
   const fetchMessages = async () => {
     try {
       const { data } = await axios.get(
-        `https://crmback-tjvw.onrender.com/user/${user._id}`,
+        `https://crmback-tjvw.onrender.com/auth/${user._id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
