@@ -122,6 +122,7 @@ const ChatApp = () => {
 
   return (
     <Container>
+      <h1>chatt</h1>
       <Typography variant="h4" gutterBottom>
         My Chats
       </Typography>
@@ -175,16 +176,13 @@ const ChatApp = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          {users.filter((user) => user._id !== loggedInUser?._id).length >=
-            2 && (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => setOpen(true)}
-            >
-              Create Group Chat
-            </Button>
-          )}
+          <Button
+            onClick={handleCreateGroup}
+            variant="contained"
+            color="primary"
+          >
+            Create
+          </Button>
         </DialogActions>
       </Dialog>
     </Container>
