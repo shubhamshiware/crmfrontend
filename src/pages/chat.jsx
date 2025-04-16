@@ -122,7 +122,6 @@ const ChatApp = () => {
 
   return (
     <Container>
-      <h1>chatt</h1>
       <Typography variant="h4" gutterBottom>
         My Chats
       </Typography>
