@@ -35,8 +35,12 @@ const ChatApp = () => {
   const [groupName, setGroupName] = useState("");
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
-
   const [loggedInUser, setLoggedInUser] = useState(null);
+
+  // 👇 For one-on-one chat
+  const [selectedChatUser, setSelectedChatUser] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -49,7 +53,6 @@ const ChatApp = () => {
   const fetchChats = async () => {
     try {
       const token = localStorage.getItem("authToken");
-
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/chat",
         {
@@ -63,6 +66,7 @@ const ChatApp = () => {
       console.error("Failed to fetch chats:", err);
     }
   };
+
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -74,11 +78,10 @@ const ChatApp = () => {
           },
         }
       );
-      console.log("Users fetched:", data);
       setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch users:", err);
-      setUsers([]); // fallback to empty array on error
+      setUsers([]);
     }
   };
 
@@ -92,15 +95,8 @@ const ChatApp = () => {
       const token = localStorage.getItem("authToken");
       const { data } = await axios.post(
         "https://crmback-tjvw.onrender.com/chat/group",
-        {
-          name: groupName,
-          users: selectedUsers,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { name: groupName, users: selectedUsers },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setChats([data, ...chats]);
       setOpen(false);
@@ -115,10 +111,49 @@ const ChatApp = () => {
     );
   };
 
-  useEffect(() => {
-    fetchChats();
-    fetchUsers();
-  }, []);
+  const startPrivateChat = async (user) => {
+    setSelectedChatUser(user);
+    setMessages([]); // Reset current messages
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const { data } = await axios.get(
+        `https://crmback-tjvw.onrender.com/message/${user._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMessages(data);
+    } catch (err) {
+      console.error("Failed to load private messages:", err);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (!newMessage.trim()) return;
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const { data } = await axios.post(
+        "https://crmback-tjvw.onrender.com/message/send",
+        {
+          recipientId: selectedChatUser._id,
+          content: newMessage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMessages((prev) => [...prev, data]);
+      setNewMessage("");
+    } catch (err) {
+      console.error("Failed to send message:", err);
+    }
+  };
 
   return (
     <Container>
@@ -130,21 +165,82 @@ const ChatApp = () => {
         Create Group Chat
       </Button>
 
-      <List>
-        {chats.map((chat) => (
-          <ListItem key={chat._id} divider>
-            <ListItemText
-              primary={chat.chatName || "Unnamed Chat"}
-              secondary={
-                chat.isGroupChat
-                  ? `Group Admin: ${chat.groupAdmin?.name}`
-                  : chat.users.map((u) => u.name).join(", ")
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
+      <Box display="flex" gap={4} mt={2}>
+        {/* Chat List */}
+        <Box width="40%">
+          <Typography variant="h6">All Users</Typography>
+          <List>
+            {users
+              .filter((user) => user._id !== loggedInUser?._id)
+              .map((user) => (
+                <ListItem
+                  button
+                  key={user._id}
+                  onClick={() => startPrivateChat(user)}
+                  selected={selectedChatUser?._id === user._id}
+                >
+                  <ListItemText primary={user.name} />
+                </ListItem>
+              ))}
+          </List>
+        </Box>
 
+        {/* Message Area */}
+        <Box width="60%">
+          <Typography variant="h6">
+            {selectedChatUser
+              ? `Chat with ${selectedChatUser.name}`
+              : "Select a user to start chat"}
+          </Typography>
+          <Box
+            border="1px solid #ccc"
+            borderRadius="8px"
+            p={2}
+            minHeight="300px"
+            maxHeight="300px"
+            overflow="auto"
+          >
+            {messages.map((msg, index) => (
+              <Box
+                key={index}
+                textAlign={msg.sender === loggedInUser._id ? "right" : "left"}
+              >
+                <Typography variant="body2">
+                  <strong>
+                    {msg.senderName ||
+                      (msg.sender === loggedInUser._id
+                        ? "You"
+                        : selectedChatUser.name)}
+                    :
+                  </strong>{" "}
+                  {msg.content}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+
+          {selectedChatUser && (
+            <Box display="flex" mt={2}>
+              <TextField
+                fullWidth
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                label="Type a message"
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={sendMessage}
+                sx={{ ml: 1 }}
+              >
+                Send
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Box>
+
+      {/* Group Dialog */}
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Create Group Chat</DialogTitle>
         <DialogContent>
