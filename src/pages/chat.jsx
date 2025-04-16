@@ -78,6 +78,7 @@ const ChatApp = () => {
           },
         }
       );
+      console.log(data, "ddd");
       setUsers(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("Failed to fetch users:", err);
