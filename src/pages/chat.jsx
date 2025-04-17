@@ -16,6 +16,8 @@ const ChatApp = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async () => {
+    const token = localStorage.getItem("authToken");
+    console.log(token, "Token ");
     try {
       const { data } = await axios.get(
         "https://crmback-tjvw.onrender.com/auth/",
