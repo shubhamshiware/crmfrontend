@@ -77,6 +77,7 @@ const ChatApp = () => {
   };
 
   const sendMessage = async () => {
+    console.log("hii");
     if (!newMessage || !currentUser) return;
 
     const { data } = await axios.post(
