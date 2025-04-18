@@ -11,14 +11,30 @@ import {
 } from "@mui/material";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const socket = io("https://crmback-tjvw.onrender.com");
 
-const ChatApp = ({ currentUser }) => {
+const ChatApp = () => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    // Get current user from token
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setCurrentUser(decoded);
+        console.log(decoded, "decoded user");
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     fetchChats();
@@ -37,7 +53,6 @@ const ChatApp = ({ currentUser }) => {
   }, []);
 
   const fetchChats = async () => {
-    // Replace with your own API route to get chats
     const { data } = await axios.get("https://crmback-tjvw.onrender.com/chat");
     setChats(data);
   };
@@ -51,7 +66,7 @@ const ChatApp = ({ currentUser }) => {
   };
 
   const sendMessage = async () => {
-    if (!newMessage) return;
+    if (!newMessage || !currentUser) return;
 
     const { data } = await axios.post(
       "https://crmback-tjvw.onrender.com/message",
@@ -98,7 +113,7 @@ const ChatApp = ({ currentUser }) => {
           {messages.map((msg) => (
             <Box
               key={msg._id}
-              textAlign={msg.sender._id === currentUser._id ? "right" : "left"}
+              textAlign={msg.sender._id === currentUser?._id ? "right" : "left"}
               mb={1}
             >
               <Typography variant="body2">
