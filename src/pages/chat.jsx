@@ -1,99 +1,126 @@
+// src/components/ChatPage.js
 import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
+  TextField,
+  Button,
   List,
   ListItem,
-  ListItemText,
-  Divider,
   Paper,
 } from "@mui/material";
+import { io } from "socket.io-client";
 import axios from "axios";
-import ChatBox from "./chatbox";
 
-const ChatApp = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+const socket = io("https://crmback-tjvw.onrender.com");
 
-  const fetchUsers = async () => {
-    const token = localStorage.getItem("authToken");
-    console.log(token, "Token ");
-    try {
-      const { data } = await axios.get(
-        "https://crmback-tjvw.onrender.com/auth/",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log(data, "users ");
-      setUsers(data);
-    } catch (err) {
-      console.error("Error fetching users", err);
-    }
-  };
+const ChatApp = ({ currentUser }) => {
+  const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
 
   useEffect(() => {
-    fetchUsers();
+    fetchChats();
   }, []);
 
+  useEffect(() => {
+    if (selectedChat) {
+      socket.emit("joinChat", selectedChat._id);
+    }
+  }, [selectedChat]);
+
+  useEffect(() => {
+    socket.on("messageReceived", (message) => {
+      setMessages((prev) => [...prev, message]);
+    });
+  }, []);
+
+  const fetchChats = async () => {
+    // Replace with your own API route to get chats
+    const { data } = await axios.get("https://crmback-tjvw.onrender.com/chat");
+    setChats(data);
+  };
+
+  const fetchMessages = async (chat) => {
+    setSelectedChat(chat);
+    const { data } = await axios.get(
+      `https://crmback-tjvw.onrender.com/message/${chat._id}`
+    );
+    setMessages(data);
+  };
+
+  const sendMessage = async () => {
+    if (!newMessage) return;
+
+    const { data } = await axios.post(
+      "https://crmback-tjvw.onrender.com/message",
+      {
+        content: newMessage,
+        chatId: selectedChat._id,
+        senderId: currentUser._id,
+      }
+    );
+
+    socket.emit("newMessage", data);
+    setMessages([...messages, data]);
+    setNewMessage("");
+  };
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100vh",
-        backgroundColor: "#f5f5f5",
-        p: 2,
-      }}
-    >
-      {/* Left Panel - Users List */}
-      <Paper
-        sx={{
-          width: "30%",
-          height: "100%",
-          overflowY: "auto",
-          mr: 2,
-          p: 2,
-        }}
-        elevation={3}
-      >
-        <Typography variant="h6" gutterBottom>
-          Users
+    <Box display="flex" height="100vh" p={2}>
+      {/* Sidebar Chat List */}
+      <Box width="30%" pr={2}>
+        <Typography variant="h5" gutterBottom>
+          Chats
         </Typography>
-        <List>
-          {users.map((user) => (
-            <React.Fragment key={user._id}>
-              <ListItem
-                button
-                onClick={() => setSelectedUser(user)}
-                selected={selectedUser?._id === user._id}
-              >
-                <ListItemText primary={user.name} />
-              </ListItem>
-              <Divider />
-            </React.Fragment>
+        <List component={Paper}>
+          {chats.map((chat) => (
+            <ListItem
+              button
+              key={chat._id}
+              selected={selectedChat?._id === chat._id}
+              onClick={() => fetchMessages(chat)}
+            >
+              {chat.chatName || "Unnamed Chat"}
+            </ListItem>
           ))}
         </List>
-      </Paper>
+      </Box>
 
-      {/* Right Panel - ChatBox */}
-      <Paper
-        sx={{
-          flexGrow: 1,
-          height: "100%",
-          p: 2,
-        }}
-        elevation={3}
-      >
-        {selectedUser ? (
-          <ChatBox user={selectedUser} />
-        ) : (
-          <Typography variant="h6" color="textSecondary">
-            Select a user to start chatting
-          </Typography>
-        )}
-      </Paper>
+      {/* Main Chat Window */}
+      <Box flex={1} display="flex" flexDirection="column">
+        <Typography variant="h5" gutterBottom>
+          {selectedChat?.chatName || "Select a Chat"}
+        </Typography>
+
+        <Box flex={1} overflow="auto" component={Paper} p={2} mb={2}>
+          {messages.map((msg) => (
+            <Box
+              key={msg._id}
+              textAlign={msg.sender._id === currentUser._id ? "right" : "left"}
+              mb={1}
+            >
+              <Typography variant="body2">
+                <strong>{msg.sender.name}</strong>: {msg.content}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+
+        <Box display="flex">
+          <TextField
+            fullWidth
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+          />
+          <Button variant="contained" onClick={sendMessage} sx={{ ml: 1 }}>
+            Send
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 };
