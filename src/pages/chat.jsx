@@ -8,6 +8,10 @@ import {
   List,
   ListItem,
   Paper,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -51,6 +55,13 @@ const ChatApp = () => {
       setMessages((prev) => [...prev, message]);
     });
   }, []);
+
+  const fetchUsers = async () => {
+    const { data } = await axios.get("https://crmback-tjvw.onrender.com/auth/");
+    // exclude current user
+    const otherUsers = data.filter((u) => u._id !== currentUser._id);
+    setAllUsers(otherUsers);
+  };
 
   const fetchChats = async () => {
     const { data } = await axios.get("https://crmback-tjvw.onrender.com/chat");
@@ -136,6 +147,32 @@ const ChatApp = () => {
           </Button>
         </Box>
       </Box>
+
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle>Start New Chat</DialogTitle>
+        <DialogContent>
+          <FormControl fullWidth>
+            <InputLabel>Select a user</InputLabel>
+            <Select
+              value={selectedUserId}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+              label="Select a user"
+            >
+              {allUsers.map((user) => (
+                <MenuItem key={user._id} value={user._id}>
+                  {user.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+          <Button onClick={createChat} variant="contained">
+            Create
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
