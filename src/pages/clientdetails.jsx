@@ -716,7 +716,8 @@ const ClientDetails = () => {
                 {/* Client Details */}
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="subtitle1">
-                    <strong>Client Name:</strong> {client?.name}
+                    <strong>Client Name:</strong>
+                    {client.company}
                   </Typography>
                   <Typography variant="subtitle1">
                     <strong>Package Amount:</strong> ₹{packageAmount}
