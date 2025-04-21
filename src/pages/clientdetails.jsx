@@ -689,37 +689,77 @@ const ClientDetails = () => {
               <Legend />
             </PieChart>
           </Box>
-          <div id="report-content" style={{ margin: "20px 0" }}>
-            <Card elevation={3} sx={{ padding: 3 }}>
+          <div
+            id="report-content"
+            style={{ margin: "30px auto", maxWidth: 700 }}
+          >
+            <Card elevation={4} sx={{ borderRadius: 3, padding: 3 }}>
               <CardContent>
-                <Typography variant="h5" gutterBottom>
-                  Monthly Report - {client?.name}
+                {/* Company Name */}
+                <Typography
+                  variant="h4"
+                  align="center"
+                  color="primary"
+                  gutterBottom
+                  sx={{ fontWeight: 700 }}
+                >
+                  AiInfinite
                 </Typography>
-                <Typography variant="body1">
-                  Leads Generated: {newLeads}
+
+                {/* Report Title */}
+                <Typography variant="h6" align="center" gutterBottom>
+                  Monthly Performance Report
                 </Typography>
-                <Typography variant="body1">
-                  Leads Converted: {newFollowers}
-                </Typography>
-                <Typography variant="body1">Views: {newViews}</Typography>
-                <Typography variant="body1">
-                  Package Amount: ₹{packageAmount}
-                </Typography>
-                <Typography variant="body1">Sales: ₹100</Typography>
-                <Typography variant="body2" color="text.secondary" mt={2}>
-                  Report Generated on {new Date().toLocaleDateString()}
+
+                <Divider sx={{ my: 2 }} />
+
+                {/* Client Details */}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle1">
+                    <strong>Client Name:</strong> {client?.name}
+                  </Typography>
+                  <Typography variant="subtitle1">
+                    <strong>Package Amount:</strong> ₹{packageAmount}
+                  </Typography>
+                </Box>
+
+                {/* Metrics */}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body1">
+                    🔹 <strong>Leads Generated:</strong> {newLeads}
+                  </Typography>
+                  <Typography variant="body1">
+                    🔹 <strong>Leads Converted:</strong> {newFollowers}
+                  </Typography>
+                  <Typography variant="body1">
+                    🔹 <strong>Views:</strong> {newViews}
+                  </Typography>
+                  <Typography variant="body1">
+                    🔹 <strong>Sales:</strong> ₹100
+                  </Typography>
+                </Box>
+
+                <Divider sx={{ my: 2 }} />
+
+                {/* Footer */}
+                <Typography variant="body2" color="text.secondary">
+                  📅 Report Generated on: {new Date().toLocaleDateString()}
                 </Typography>
               </CardContent>
             </Card>
 
-            <Button
-              variant="contained"
-              startIcon={<PictureAsPdfIcon />}
-              sx={{ mt: 2 }}
-              onClick={generatePDF}
-            >
-              Download PDF Report
-            </Button>
+            {/* Download Button */}
+            <Box sx={{ textAlign: "center", mt: 3 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<PictureAsPdfIcon />}
+                onClick={generatePDF}
+                sx={{ borderRadius: 2, px: 4 }}
+              >
+                Download PDF Report
+              </Button>
+            </Box>
           </div>
         </Box>
       </Grid>
