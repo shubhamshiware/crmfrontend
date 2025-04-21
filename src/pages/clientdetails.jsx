@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import axios from "axios";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Typography,
   Box,
@@ -11,12 +13,15 @@ import {
   MenuItem,
   Button,
   TextField,
+  CardContent,
   Grid,
+  Card,
 } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import BusinessIcon from "@mui/icons-material/Business";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { jwtDecode } from "jwt-decode";
 import { Divider } from "@mui/material";
 
@@ -296,6 +301,21 @@ const ClientDetails = () => {
       </Typography>
     );
   }
+
+  const generatePDF = () => {
+    const input = document.getElementById("report-content");
+
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`Client_Report_${client?.name || "User"}.pdf`);
+    });
+  };
 
   return (
     <Box p={3} bgcolor="#f9f9f9" minHeight="100vh">
@@ -669,6 +689,38 @@ const ClientDetails = () => {
               <Legend />
             </PieChart>
           </Box>
+          <div id="report-content" style={{ margin: "20px 0" }}>
+            <Card elevation={3} sx={{ padding: 3 }}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom>
+                  Monthly Report - {client?.name}
+                </Typography>
+                <Typography variant="body1">
+                  Leads Generated: {newLeads}
+                </Typography>
+                <Typography variant="body1">
+                  Leads Converted: {newFollowers}
+                </Typography>
+                <Typography variant="body1">Views: {newViews}</Typography>
+                <Typography variant="body1">
+                  Package Amount: ₹{packageAmount}
+                </Typography>
+                <Typography variant="body1">Sales: ₹100</Typography>
+                <Typography variant="body2" color="text.secondary" mt={2}>
+                  Report Generated on {new Date().toLocaleDateString()}
+                </Typography>
+              </CardContent>
+            </Card>
+
+            <Button
+              variant="contained"
+              startIcon={<PictureAsPdfIcon />}
+              sx={{ mt: 2 }}
+              onClick={generatePDF}
+            >
+              Download PDF Report
+            </Button>
+          </div>
         </Box>
       </Grid>
     </Box>
