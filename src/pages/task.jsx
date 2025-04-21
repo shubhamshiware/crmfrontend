@@ -55,8 +55,30 @@ const Taskssss = () => {
     console.log("Editing user:", userId);
   };
 
-  const handleDelete = (userId) => {
-    console.log("Deleting user:", userId);
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this client?")) {
+      try {
+        const response = await fetch(
+          "https://crmback-tjvw.onrender.com/auth/delete",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({ id }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to delete client");
+        }
+        const result = await response.json();
+        alert(result.message);
+        fetchClients();
+      } catch (error) {
+        alert("Error deleting client: " + error.message);
+      }
+    }
   };
 
   return (
