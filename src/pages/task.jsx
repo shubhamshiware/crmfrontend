@@ -56,7 +56,7 @@ const Taskssss = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this client?")) {
+    if (window.confirm("Are you sure you want to delete this user")) {
       try {
         const response = await fetch(
           "https://crmback-tjvw.onrender.com/auth/delete",
@@ -74,7 +74,6 @@ const Taskssss = () => {
         }
         const result = await response.json();
         alert(result.message);
-        fetchClients();
       } catch (error) {
         alert("Error deleting client: " + error.message);
       }
