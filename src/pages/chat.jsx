@@ -57,10 +57,15 @@ const ChatApp = () => {
 
   const fetchChats = async () => {
     try {
-      const { data } = await axios.get(
-        "https://crmback-tjvw.onrender.com/chat/chats"
+      // Replace GET with POST and provide proper user IDs
+      const { data } = await axios.post(
+        "https://crmback-tjvw.onrender.com/chats",
+        {
+          userId1: currentUser._id, // You must decide who the other user is
+          userId2: "OTHER_USER_ID", // This should come from some logic (e.g., from a dropdown, or matched user)
+        }
       );
-      setChats(data);
+      setChats([data]); // accessChat returns a single chat, not an array
     } catch (err) {
       console.error("Error fetching chats:", err);
     }
