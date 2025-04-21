@@ -8,10 +8,6 @@ import {
   List,
   ListItem,
   Paper,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from "@mui/material";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -20,29 +16,32 @@ import { jwtDecode } from "jwt-decode";
 const socket = io("https://crmback-tjvw.onrender.com");
 
 const ChatApp = () => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
 
+  // Decode token to get current user
   useEffect(() => {
-    // Get current user from token
     const token = localStorage.getItem("authToken");
     if (token) {
       try {
         const decoded = jwtDecode(token);
-        setCurrentUser(decoded);
-        console.log(decoded, "decoded user");
+        setCurrentUser(decoded); // Make sure your token includes _id and name
+        console.log("Decoded user:", decoded);
       } catch (error) {
         console.error("Error decoding token:", error);
       }
     }
   }, []);
 
+  // Fetch chats
   useEffect(() => {
-    fetchChats();
-  }, []);
+    if (currentUser) {
+      fetchChats();
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     if (selectedChat) {
@@ -56,42 +55,48 @@ const ChatApp = () => {
     });
   }, []);
 
-  const fetchUsers = async () => {
-    const { data } = await axios.get("https://crmback-tjvw.onrender.com/auth/");
-    // exclude current user
-    const otherUsers = data.filter((u) => u._id !== currentUser._id);
-    setAllUsers(otherUsers);
-  };
-
   const fetchChats = async () => {
-    const { data } = await axios.get("https://crmback-tjvw.onrender.com/chat");
-    setChats(data);
+    try {
+      const { data } = await axios.get(
+        "https://crmback-tjvw.onrender.com/chat"
+      );
+      setChats(data);
+    } catch (err) {
+      console.error("Error fetching chats:", err);
+    }
   };
 
   const fetchMessages = async (chat) => {
     setSelectedChat(chat);
-    const { data } = await axios.get(
-      `https://crmback-tjvw.onrender.com/message/${chat._id}`
-    );
-    setMessages(data);
+    try {
+      const { data } = await axios.get(
+        `https://crmback-tjvw.onrender.com/message/${chat._id}`
+      );
+      setMessages(data);
+    } catch (err) {
+      console.error("Error fetching messages:", err);
+    }
   };
 
   const sendMessage = async () => {
-    console.log("hii");
-    if (!newMessage || !currentUser) return;
+    if (!newMessage || !selectedChat || !currentUser) return;
 
-    const { data } = await axios.post(
-      "https://crmback-tjvw.onrender.com/message",
-      {
-        content: newMessage,
-        chatId: selectedChat._id,
-        senderId: currentUser._id,
-      }
-    );
+    try {
+      const { data } = await axios.post(
+        "https://crmback-tjvw.onrender.com/message",
+        {
+          content: newMessage,
+          chatId: selectedChat._id,
+          senderId: currentUser._id,
+        }
+      );
 
-    socket.emit("newMessage", data);
-    setMessages([...messages, data]);
-    setNewMessage("");
+      socket.emit("newMessage", data);
+      setMessages([...messages, data]);
+      setNewMessage("");
+    } catch (err) {
+      console.error("Error sending message:", err);
+    }
   };
 
   return (
@@ -102,16 +107,22 @@ const ChatApp = () => {
           Chats
         </Typography>
         <List component={Paper}>
-          {chats.map((chat) => (
-            <ListItem
-              button
-              key={chat._id}
-              selected={selectedChat?._id === chat._id}
-              onClick={() => fetchMessages(chat)}
-            >
-              {chat.chatName || "Unnamed Chat"}
-            </ListItem>
-          ))}
+          {chats.length === 0 ? (
+            <Typography variant="body2" p={2}>
+              No chats found
+            </Typography>
+          ) : (
+            chats.map((chat) => (
+              <ListItem
+                button
+                key={chat._id}
+                selected={selectedChat?._id === chat._id}
+                onClick={() => fetchMessages(chat)}
+              >
+                {chat.chatName || "Unnamed Chat"}
+              </ListItem>
+            ))
+          )}
         </List>
       </Box>
 
@@ -148,32 +159,6 @@ const ChatApp = () => {
           </Button>
         </Box>
       </Box>
-
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>Start New Chat</DialogTitle>
-        <DialogContent>
-          <FormControl fullWidth>
-            <InputLabel>Select a user</InputLabel>
-            <Select
-              value={selectedUserId}
-              onChange={(e) => setSelectedUserId(e.target.value)}
-              label="Select a user"
-            >
-              {allUsers.map((user) => (
-                <MenuItem key={user._id} value={user._id}>
-                  {user.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-          <Button onClick={createChat} variant="contained">
-            Create
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };
