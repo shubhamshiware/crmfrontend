@@ -58,7 +58,7 @@ const ChatApp = () => {
   const fetchChats = async () => {
     try {
       const { data } = await axios.get(
-        "https://crmback-tjvw.onrender.com/chat"
+        "https://crmback-tjvw.onrender.com/chat/chats"
       );
       setChats(data);
     } catch (err) {
