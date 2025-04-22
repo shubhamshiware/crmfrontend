@@ -37,6 +37,8 @@ const ProfilePage = () => {
   const [preview, setPreview] = useState("");
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
+  const [editDueDate, setEditDueDate] = useState("");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -225,19 +227,42 @@ const ProfilePage = () => {
   const handleEditClick = (index) => {
     setEditIndex(index);
     setEditText(tasks[index].update);
+    setEditDueDate(tasks[index].uploadedAt); // Add this state
   };
+
+  // const handleEditTask = async (index, id) => {
+  //   if (!editText.trim()) return;
+  //   try {
+  //     await axios.put("https://crmback-tjvw.onrender.com/content/edit", {
+  //       _id: id,
+  //       update: editText,
+  //     });
+  //     const updatedTasks = [...tasks];
+  //     updatedTasks[index].update = editText;
+  //     setTasks(updatedTasks);
+
+  //     setEditIndex(null);
+  //   } catch (error) {
+  //     console.error("Error updating task:", error);
+  //   }
+  // };
 
   const handleEditTask = async (index, id) => {
     if (!editText.trim()) return;
+
     try {
       await axios.put("https://crmback-tjvw.onrender.com/content/edit", {
         _id: id,
-        update: editText,
+        update: {
+          task: editText,
+          uploadedAt: editDueDate, // include updated due date
+        },
       });
+
       const updatedTasks = [...tasks];
       updatedTasks[index].update = editText;
+      updatedTasks[index].uploadedAt = editDueDate;
       setTasks(updatedTasks);
-
       setEditIndex(null);
     } catch (error) {
       console.error("Error updating task:", error);
@@ -563,16 +588,17 @@ const ProfilePage = () => {
                   >
                     {task.completed ? "Completed" : "Not Completed"}
                   </Typography> */}
+                  {/* {task.uploadedAt && (
+                    <Typography variant="body2" color="text.secondary">
+                      Due date -{" "}
+                      {new Date(task.uploadedAt).toLocaleDateString()}
+                    </Typography>
+                  )} */}
+
                   {task.uploadedAt && (
                     <Typography variant="body2" color="text.secondary">
                       Due date -{" "}
                       {new Date(task.uploadedAt).toLocaleDateString()}
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleEditClick(index)}
-                      >
-                        <Edit />
-                      </IconButton>
                     </Typography>
                   )}
                 </Box>
@@ -580,7 +606,7 @@ const ProfilePage = () => {
                 {/* ✅ Action Buttons (Edit/Delete) */}
                 {userData?.role === "admin" && (
                   <Box mt={1} textAlign="right">
-                    {editIndex === index ? (
+                    {/* {editIndex === index ? (
                       <Button
                         color="primary"
                         onClick={() => handleEditTask(index, task._id)}
@@ -596,6 +622,46 @@ const ProfilePage = () => {
                           <Edit />
                         </IconButton>
 
+                        <IconButton
+                          color="error"
+                          onClick={() => handleDeleteTask(task._id)}
+                        >
+                          <Delete />
+                        </IconButton>
+                      </>
+                    )} */}
+
+                    {editIndex === index ? (
+                      <>
+                        <TextField
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
+                          fullWidth
+                          size="small"
+                          sx={{ mb: 1 }}
+                        />
+                        <TextField
+                          type="date"
+                          value={editDueDate?.slice(0, 10)}
+                          onChange={(e) => setEditDueDate(e.target.value)}
+                          size="small"
+                          sx={{ mb: 1 }}
+                        />
+                        <Button
+                          color="primary"
+                          onClick={() => handleEditTask(index, task._id)}
+                        >
+                          Save
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <IconButton
+                          color="primary"
+                          onClick={() => handleEditClick(index)}
+                        >
+                          <Edit />
+                        </IconButton>
                         <IconButton
                           color="error"
                           onClick={() => handleDeleteTask(task._id)}
