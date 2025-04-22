@@ -189,7 +189,7 @@ const ProfilePage = () => {
       const updatedPayload = {
         _id: id,
         update: updateFields,
-        completed: !completed, // Toggle completion status
+        completed: !completed, //toggel
       };
 
       // Send request to API
@@ -247,7 +247,7 @@ const ProfilePage = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setPreview(URL.createObjectURL(file)); // Show preview before upload
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleUpload = async () => {
@@ -283,7 +283,6 @@ const ProfilePage = () => {
 
   const navigateToss = () => {
     navigate("/att");
-    console.log("uuu");
   };
 
   const navigateChat = () => {
@@ -568,6 +567,12 @@ const ProfilePage = () => {
                     <Typography variant="body2" color="text.secondary">
                       Due date -{" "}
                       {new Date(task.uploadedAt).toLocaleDateString()}
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleEditClick(index)}
+                      >
+                        <Edit />
+                      </IconButton>
                     </Typography>
                   )}
                 </Box>
