@@ -254,8 +254,8 @@ const ProfilePage = () => {
       await axios.put("https://crmback-tjvw.onrender.com/content/edit", {
         _id: id,
         update: {
-          task: editText,
-          uploadedAt: editDueDate, // include updated due date
+          task: editText, // 👈 use "task" instead of "update"
+          uploadedAt: editDueDate, // 👈 still correct
         },
       });
 
