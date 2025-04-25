@@ -47,7 +47,6 @@ const ClientDetails = () => {
     if (token) {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
-      // console.log(decoded.role, ",defined Role Of this User");
     }
   }, []);
 
@@ -64,7 +63,7 @@ const ClientDetails = () => {
     { name: "Leads generated", value: newLeads },
     { name: "newfollowers", value: newFollowers },
     { name: " Leads Converted in %", value: newViews },
-    { name: "Sales", value: 100 },
+    { name: "Engagement Rate", value: 100 },
   ];
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -599,7 +598,7 @@ const ClientDetails = () => {
               Leads Generated: {client.leadsgenerated}
             </Typography>
             <Typography variant="body1" fontWeight="bold">
-              Leads Converted: {client.views}%
+              Engagement Rate: {client.views}%
             </Typography>
             <Typography variant="body1" fontWeight="bold">
               Followers Increased: {client.followers}%
@@ -733,7 +732,7 @@ const ClientDetails = () => {
                     🔹 <strong>Leads Converted:</strong> {newFollowers}
                   </Typography>
                   <Typography variant="body1">
-                    🔹 <strong>Views:</strong> {newViews}
+                    🔹 <strong>Engagement Rate:</strong> {newViews}
                   </Typography>
                   <Typography variant="body1">
                     🔹 <strong>Sales:</strong> ₹100
