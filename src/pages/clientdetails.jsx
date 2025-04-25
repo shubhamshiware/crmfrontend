@@ -137,6 +137,7 @@ const ClientDetails = () => {
             leadsgenerated: updatedLeads,
             followers: updatedFollowers,
             views: updatedViews,
+            ctr: updatedCtr,
           }),
         }
       );
