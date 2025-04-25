@@ -57,7 +57,7 @@ const ClientDetails = () => {
 
       setNewFollowers(client.followers);
       setViews(client.views);
-      setCtr(client.Ctr);
+      setCtr(client.ctr);
     }
   }, [client]);
 
@@ -104,7 +104,7 @@ const ClientDetails = () => {
       client.followers
     );
 
-    const updatedCtr = prompt("Enter client through rate:", client.Ctr);
+    const updatedCtr = prompt("Enter client through rate:", client.ctr);
     const updatedViews = prompt("Enter new number of views:", client.views);
 
     // Validate inputs
