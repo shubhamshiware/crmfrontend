@@ -40,6 +40,7 @@ const ClientDetails = () => {
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [newCtr, setCtr] = useState();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -56,14 +57,15 @@ const ClientDetails = () => {
 
       setNewFollowers(client.followers);
       setViews(client.views);
+      setCtr(client.Ctr);
     }
   }, [client]);
 
   const data = [
     { name: "Leads generated", value: newLeads },
-    { name: "newfollowers", value: newFollowers },
+    { name: "client thruogh rate", value: newFollowers },
     { name: " Leads Converted in %", value: newViews },
-    { name: "Engagement Rate", value: 100 },
+    { name: "Engagement Rate", value: newCtr },
   ];
 
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
@@ -102,7 +104,7 @@ const ClientDetails = () => {
       client.followers
     );
 
-    const updatedCtr = prompt("Enter leades got converted:", client.Ctr);
+    const updatedCtr = prompt("Enter client through rate:", client.Ctr);
     const updatedViews = prompt("Enter new number of views:", client.views);
 
     // Validate inputs
@@ -114,6 +116,8 @@ const ClientDetails = () => {
       isNaN(updatedFollowers) ||
       updatedFollowers < 0 ||
       updatedViews === null ||
+      isNaN(updatedCtr) ||
+      updatedCtr < 0 ||
       isNaN(updatedViews) ||
       updatedViews < 0
     ) {
