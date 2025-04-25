@@ -91,6 +91,7 @@ const ClientDetails = () => {
 
     fetchClientDetails();
   }, [id]);
+
   const handleLeads = async () => {
     const updatedLeads = prompt(
       "Enter new number of leads:",
@@ -100,6 +101,8 @@ const ClientDetails = () => {
       "Enter leades got converted:",
       client.followers
     );
+
+    const updatedCtr = prompt("Enter leades got converted:", client.Ctr);
     const updatedViews = prompt("Enter new number of views:", client.views);
 
     // Validate inputs
@@ -144,6 +147,7 @@ const ClientDetails = () => {
         leadsgenerated: updatedLeads,
         followers: updatedFollowers,
         views: updatedViews,
+        ctr: updatedCtr,
       }));
 
       alert("Data updated successfully!");
@@ -602,6 +606,9 @@ const ClientDetails = () => {
             </Typography>
             <Typography variant="body1" fontWeight="bold">
               Followers Increased: {client.followers}%
+            </Typography>
+            <Typography variant="body1" fontWeight="bold">
+              CTR: {client.ctr}%
             </Typography>
           </Box>
           {(userRole === "author" || userRole === "admin") && (
