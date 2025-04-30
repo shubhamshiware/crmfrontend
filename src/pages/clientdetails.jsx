@@ -457,15 +457,6 @@ const ClientDetails = () => {
                 </Typography>
               </Box>
             </Box>
-            {/* <Box display="flex" alignItems="center" paddingRight={30} px>
-              <CalendarTodayIcon color="primary" sx={{ mr: 1 }} />
-              <Typography variant="body1" sx={{ color: "#555" }}>
-                Added At:{" "}
-                <Box component="span" fontWeight="medium">
-                  {new Date(client.addedAt).toLocaleDateString()}
-                </Box>
-              </Typography>
-            </Box> */}
           </Box>
         </Grid>
 
@@ -704,7 +695,10 @@ const ClientDetails = () => {
             id="report-content"
             style={{ margin: "30px auto", maxWidth: 700 }}
           >
-            <Card elevation={4} sx={{ borderRadius: 3, padding: 3 }}>
+            <Card
+              elevation={4}
+              sx={{ borderRadius: 3, padding: 3, bgcolor: "#f5f5f5" }}
+            >
               <CardContent>
                 {/* Company Name */}
                 <Typography
