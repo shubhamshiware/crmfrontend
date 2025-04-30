@@ -741,13 +741,13 @@ const ClientDetails = () => {
                     🔹 <strong>Leads Generated:</strong> {newLeads}
                   </Typography>
                   <Typography variant="body1">
-                    🔹 <strong>Leads Converted:</strong> {newFollowers}
+                    🔹 <strong>Leads Converted:</strong> {newFollowers}%
                   </Typography>
                   <Typography variant="body1">
-                    🔹 <strong>Engagement Rate:</strong> {newViews}
+                    🔹 <strong>Engagement Rate:</strong> {newViews}%
                   </Typography>
                   <Typography variant="body1">
-                    🔹 <strong>Client through rate:</strong> {newCtr}
+                    🔹 <strong>Client through rate:</strong> {newCtr}%
                   </Typography>
                 </Box>
 
