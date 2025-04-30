@@ -67,7 +67,7 @@ const ClientDetails = () => {
     { name: " Leads Converted in %", value: newViews },
     { name: "Engagement Rate", value: newCtr },
   ];
-
+  console.log(newCtr, "ctr");
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   useEffect(() => {
@@ -747,7 +747,7 @@ const ClientDetails = () => {
                     🔹 <strong>Engagement Rate:</strong> {newViews}
                   </Typography>
                   <Typography variant="body1">
-                    🔹 <strong>Sales:</strong> ₹100
+                    🔹 <strong>Client through rate:</strong> {newCtr}
                   </Typography>
                 </Box>
 
