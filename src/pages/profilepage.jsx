@@ -18,6 +18,7 @@ import {
 import { Email, Phone, Info, Edit, Delete } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import BadgeIcon from "@mui/icons-material/Badge";
+import EditUserDetails from "./edituser";
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
@@ -460,7 +461,12 @@ const ProfilePage = () => {
 
           <Box flex={2} ml={4}>
             <CardContent>
-              <Box display="flex" alignItems="center" mb={1}>
+              <EditUserDetails
+                userData={userData}
+                onUserUpdated={(updated) => setUserData(updated)}
+              />
+
+              {/* <Box display="flex" alignItems="center" mb={1}>
                 <Email color="primary" sx={{ mr: 1 }} />
                 <Typography variant="body1" fontWeight="bold">
                   {userData?.email}
@@ -486,7 +492,7 @@ const ProfilePage = () => {
                 <Typography variant="body1" fontWeight="bold">
                   {userData?.username || "N/A"}
                 </Typography>
-              </Box>
+              </Box> */}
             </CardContent>
           </Box>
         </Box>
