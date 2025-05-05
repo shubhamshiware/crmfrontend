@@ -37,13 +37,21 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
 
   const handleSubmit = async () => {
     try {
-      const userId = userData._id || userData.id;
       const response = await axios.put(
-        "https://crmback-tjvw.onrender.com/edituser",
-        formData
+        "https://crmback-tjvw.onrender.com/edituser", // fixed URL to match backend
+        {
+          _id: userData._id, // include ID here
+          ...formData,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
+
       alert("User updated successfully");
-      if (onUserUpdated) onUserUpdated(response.data);
+      if (onUserUpdated) onUserUpdated(response.data.data); // response.data.data contains the updated user
     } catch (error) {
       console.error("Update failed:", error);
       alert("Failed to update user");
