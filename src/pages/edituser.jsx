@@ -39,7 +39,7 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
     try {
       const userId = userData._id || userData.id;
       const response = await axios.put(
-        `https://crmback-tjvw.onrender.com/user/edit/${userId}`,
+        "https://crmback-tjvw.onrender.com/edituser",
         formData
       );
       alert("User updated successfully");
