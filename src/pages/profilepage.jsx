@@ -14,11 +14,13 @@ import {
   Checkbox,
   Button,
   IconButton,
+  Link,
 } from "@mui/material";
 import { Email, Phone, Info, Edit, Delete } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import BadgeIcon from "@mui/icons-material/Badge";
 import EditUserDetails from "./edituser";
+import EditIcon from "@mui/icons-material/Edit";
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
@@ -317,6 +319,10 @@ const ProfilePage = () => {
   const videoCall = () => {
     navigate(`/video-call/${userId || "support-room"}`);
   };
+
+  const editClick = () => {
+    navigate("/edituser", { userData });
+  };
   // navigate(`/video-call/${userId || "support-room"}`);
   ///chat
 
@@ -465,6 +471,9 @@ const ProfilePage = () => {
                 userData={userData}
                 onUserUpdated={(updated) => setUserData(updated)}
               />
+              <Link to={editClick}>
+                <EditIcon color="primary" style={{ cursor: "pointer" }} />
+              </Link>
 
               {/* <Box display="flex" alignItems="center" mb={1}>
                 <Email color="primary" sx={{ mr: 1 }} />
