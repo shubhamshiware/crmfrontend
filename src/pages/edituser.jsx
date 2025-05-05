@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  Box,
   Card,
   CardContent,
   Typography,
   TextField,
   Button,
-  Link,
 } from "@mui/material";
-import { Email, Badge, Info, AccountCircle } from "@mui/icons-material";
 
 const EditUserDetails = ({ userData, onUserUpdated }) => {
   const [formData, setFormData] = useState({
@@ -40,8 +37,9 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "https://crmback-tjvw.onrender.com/user/edit",
+      const userId = userData._id || userData.id;
+      const response = await axios.put(
+        `https://crmback-tjvw.onrender.com/user/edit/${userId}`,
         formData
       );
       alert("User updated successfully");
