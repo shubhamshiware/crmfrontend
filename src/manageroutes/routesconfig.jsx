@@ -16,7 +16,6 @@ import TaskPage from "../pages/taskpage.jsx";
 import Attendance from "../attandence/attandence.jsx";
 import VideoCall from "../pages/meet.jsx";
 import ChatApp from "../pages/chat.jsx";
-// import Attendance from "../attandence/attandence.jsx";
 
 const RoutesConfig = () => {
   return (
