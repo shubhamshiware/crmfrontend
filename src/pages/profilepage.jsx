@@ -16,7 +16,7 @@ import {
   IconButton,
   Link,
 } from "@mui/material";
-import { Email, Phone, Info, Edit, Delete } from "@mui/icons-material";
+import { Email, Phone, Info, Edit, Delete, Badge } from "@mui/icons-material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import BadgeIcon from "@mui/icons-material/Badge";
 import EditUserDetails from "./edituser";
@@ -27,7 +27,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [content, setContent] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
   const [updatedText, setUpdatedText] = useState("");
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
@@ -41,6 +41,7 @@ const ProfilePage = () => {
   const [user, setUser] = useState({});
   const [profileImage, setProfileImage] = useState(null);
   const [editDueDate, setEditDueDate] = useState("");
+  const [isEditing, setIsEditing] = useState(false); // toggle state
 
   const navigate = useNavigate();
 
@@ -465,45 +466,52 @@ const ProfilePage = () => {
 
           {/* Right - User Details */}
 
-          <Box flex={2} ml={4}>
-            <CardContent>
+          <Card sx={{ mt: 4, p: 3 }}>
+            <Box display="flex" justifyContent="flex-end">
+              <EditIcon
+                color="primary"
+                style={{ cursor: "pointer" }}
+                onClick={() => setIsEditing(!isEditing)}
+              />
+            </Box>
+
+            {isEditing ? (
               <EditUserDetails
                 userData={userData}
-                onUserUpdated={(updated) => setUserData(updated)}
+                onUserUpdated={(updated) => {
+                  setUserData(updated);
+                  setIsEditing(false); // return to view mode after update
+                }}
               />
-              <Link to={editClick}>
-                <EditIcon color="primary" style={{ cursor: "pointer" }} />
-              </Link>
-
-              {/* <Box display="flex" alignItems="center" mb={1}>
-                <Email color="primary" sx={{ mr: 1 }} />
-                <Typography variant="body1" fontWeight="bold">
-                  {userData?.email}
-                </Typography>
-              </Box>
-              <br></br>
-              <Box display="flex" alignItems="center" mb={1}>
-                <BadgeIcon color="primary" sx={{ mr: 1 }} />
-                <Typography variant="body1" fontWeight="bold">
-                  {userData?.role || "N/A"}
-                </Typography>
-              </Box>
-              <br></br>
-              <Box display="flex" alignItems="center" mb={1}>
-                <Info color="primary" sx={{ mr: 1 }} />
-                <Typography variant="body1" fontWeight="bold">
-                  {userData?.about || "N/A"}
-                </Typography>
-              </Box>
-              <br></br>
-              <Box display="flex" alignItems="center" mb={1}>
-                <AccountCircle color="primary" sx={{ mr: 1 }} />
-                <Typography variant="body1" fontWeight="bold">
-                  {userData?.username || "N/A"}
-                </Typography>
-              </Box> */}
-            </CardContent>
-          </Box>
+            ) : (
+              <>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <Email color="primary" sx={{ mr: 1 }} />
+                  <Typography variant="body1" fontWeight="bold">
+                    {userData?.email}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <Badge color="primary" sx={{ mr: 1 }} />
+                  <Typography variant="body1" fontWeight="bold">
+                    {userData?.role || "N/A"}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <Info color="primary" sx={{ mr: 1 }} />
+                  <Typography variant="body1" fontWeight="bold">
+                    {userData?.about || "N/A"}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center" mb={1}>
+                  <AccountCircle color="primary" sx={{ mr: 1 }} />
+                  <Typography variant="body1" fontWeight="bold">
+                    {userData?.username || "N/A"}
+                  </Typography>
+                </Box>
+              </>
+            )}
+          </Card>
         </Box>
         <hr></hr>
 
