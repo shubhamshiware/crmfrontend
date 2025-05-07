@@ -466,52 +466,52 @@ const ProfilePage = () => {
 
           {/* Right - User Details */}
 
-          <Card sx={{ mt: 4, p: 3 }}>
-            <Box display="flex" justifyContent="flex-end">
-              <EditIcon
-                color="primary"
-                style={{ cursor: "pointer" }}
-                onClick={() => setIsEditing(!isEditing)}
-              />
-            </Box>
+          {/* <Card sx={{ mt: 4, p: 3 }}> */}
+          <Box display="flex" justifyContent="flex-end">
+            <EditIcon
+              color="primary"
+              style={{ cursor: "pointer" }}
+              onClick={() => setIsEditing(!isEditing)}
+            />
+          </Box>
 
-            {isEditing ? (
-              <EditUserDetails
-                userData={userData}
-                onUserUpdated={(updated) => {
-                  setUserData(updated);
-                  setIsEditing(false); // return to view mode after update
-                }}
-              />
-            ) : (
-              <>
-                <Box display="flex" alignItems="center" mb={1}>
-                  <Email color="primary" sx={{ mr: 1 }} />
-                  <Typography variant="body1" fontWeight="bold">
-                    {userData?.email}
-                  </Typography>
-                </Box>
-                <Box display="flex" alignItems="center" mb={1}>
-                  <Badge color="primary" sx={{ mr: 1 }} />
-                  <Typography variant="body1" fontWeight="bold">
-                    {userData?.role || "N/A"}
-                  </Typography>
-                </Box>
-                <Box display="flex" alignItems="center" mb={1}>
-                  <Info color="primary" sx={{ mr: 1 }} />
-                  <Typography variant="body1" fontWeight="bold">
-                    {userData?.about || "N/A"}
-                  </Typography>
-                </Box>
-                <Box display="flex" alignItems="center" mb={1}>
-                  <AccountCircle color="primary" sx={{ mr: 1 }} />
-                  <Typography variant="body1" fontWeight="bold">
-                    {userData?.username || "N/A"}
-                  </Typography>
-                </Box>
-              </>
-            )}
-          </Card>
+          {isEditing ? (
+            <EditUserDetails
+              userData={userData}
+              onUserUpdated={(updated) => {
+                setUserData(updated);
+                setIsEditing(false); // return to view mode after update
+              }}
+            />
+          ) : (
+            <>
+              <Box display="flex" alignItems="center" mb={1}>
+                <Email color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" fontWeight="bold">
+                  {userData?.email}
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={1}>
+                <Badge color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" fontWeight="bold">
+                  {userData?.role || "N/A"}
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={1}>
+                <Info color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" fontWeight="bold">
+                  {userData?.about || "N/A"}
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center" mb={1}>
+                <AccountCircle color="primary" sx={{ mr: 1 }} />
+                <Typography variant="body1" fontWeight="bold">
+                  {userData?.username || "N/A"}
+                </Typography>
+              </Box>
+            </>
+          )}
+          {/* </Card> */}
         </Box>
         <hr></hr>
 
