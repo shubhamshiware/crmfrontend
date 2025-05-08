@@ -40,6 +40,7 @@ const AdminDashboard = () => {
   // Handle role change and send update to backend
   const handleRoleChange = async (event, user) => {
     const updatedRole = event.target.value;
+    console.log(updatedRole, "roleupdate");
 
     try {
       await axios.put("https://crmback-tjvw.onrender.com/auth/edit", {
