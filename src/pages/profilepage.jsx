@@ -27,7 +27,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [content, setContent] = useState("");
-  // const [isEditing, setIsEditing] = useState(false);
+
   const [updatedText, setUpdatedText] = useState("");
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
@@ -217,6 +217,7 @@ const ProfilePage = () => {
   };
 
   const handleDeleteTask = async (id) => {
+    console.log(id, "id incomming");
     try {
       await axios.delete(
         `https://crmback-tjvw.onrender.com/content/content/${id}`
