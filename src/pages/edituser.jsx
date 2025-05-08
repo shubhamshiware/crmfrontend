@@ -36,6 +36,7 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
   };
 
   const handleSubmit = async () => {
+    console.log("edit user started");
     try {
       const response = await axios.put(
         "https://crmback-tjvw.onrender.com/edituser", // fixed URL to match backend
@@ -49,7 +50,7 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
           },
         }
       );
-
+      console.log(response.data.data);
       alert("User updated successfully");
       if (onUserUpdated) onUserUpdated(response.data.data); // response.data.data contains the updated user
     } catch (error) {
