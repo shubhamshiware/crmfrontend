@@ -39,7 +39,7 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
     console.log("edit user started");
     try {
       const response = await axios.put(
-        "https://crmback-tjvw.onrender.com/auth/edit", // fixed URL to match backend
+        "https://crmback-tjvw.onrender.com/auth/edituser", // fixed URL to match backend
         {
           _id: userData._id, // include ID here
           ...formData,
