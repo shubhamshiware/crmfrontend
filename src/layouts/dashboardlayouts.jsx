@@ -194,9 +194,11 @@ const DashboardLayout = ({ children }) => {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           marginTop: "64px", // AppBar offset
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        {children}
+        <Box sx={{ width: "100%", maxWidth: "1200px" }}>{children}</Box>
       </Box>
     </Box>
   );
