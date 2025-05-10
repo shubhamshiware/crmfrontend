@@ -51,8 +51,8 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
         }
       );
       console.log(response.data.data, "edited user data");
-      alert("User updated successfully");
-      if (onUserUpdated) onUserUpdated(response.data.data); // response.data.data contains the updated user
+      alert("User updated");
+      if (onUserUpdated) onUserUpdated(response.data.data);
     } catch (error) {
       console.error("Update failed:", error);
       alert("Failed to update user");
