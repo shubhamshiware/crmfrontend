@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Drawer,
@@ -11,93 +11,110 @@ import {
   Typography,
   IconButton,
   Button,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import MenuIcon from "@mui/icons-material/Menu";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import TaskIcon from "@mui/icons-material/Task";
 import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import TaskIcon from "@mui/icons-material/Task";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const DashboardLayout = ({ children }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Check for token and handle unauthorized access
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    // console.log("Token retrieved from localStorage:", token);
-
-    // Allow access to the login and signup pages without a token
     if (
       !token &&
       location.pathname !== "/login" &&
       location.pathname !== "/signup"
     ) {
-      navigate("/login"); // Redirect to login if token doesn't exist and not on login/signup
+      navigate("/login");
     }
   }, [navigate, location.pathname]);
 
-  // Handle Login Button (Redirect to Login Page)
-  const handleLogin = () => {
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
     navigate("/login");
   };
 
-  // Handle Signup Button (Redirect to Signup Page)
-  const handleSignup = () => {
-    navigate("/signup");
-  };
-
-  // Handle Logout Functionality
-  const handleLogout = () => {
-    localStorage.removeItem("authToken"); // Remove token from local storage
-    navigate("/login"); // Redirect to login page
-  };
+  const drawerContent = (
+    <Box
+      onClick={isMobile ? handleDrawerToggle : undefined}
+      sx={{ textAlign: "center" }}
+    >
+      <Toolbar />
+      <List>
+        <ListItem button component={Link} to="/dashboard">
+          <ListItemIcon sx={{ color: "#ffffff" }}>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+        <ListItem button component={Link} to="/Taskssss">
+          <ListItemIcon sx={{ color: "#ffffff" }}>
+            <TaskIcon />
+          </ListItemIcon>
+          <ListItemText primary="Task Manager" />
+        </ListItem>
+        <ListItem button component={Link} to="/clients">
+          <ListItemIcon sx={{ color: "#ffffff" }}>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Clients" />
+        </ListItem>
+        <ListItem button component={Link} to="/profilepage">
+          <ListItemIcon sx={{ color: "#ffffff" }}>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </ListItem>
+      </List>
+    </Box>
+  );
 
   return (
     <Box sx={{ display: "flex", height: "100vh" }}>
-      {/* Header Section */}
+      {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          backgroundColor: "#1976d2", // Matching sidebar color
+          backgroundColor: "#1976d2",
         }}
       >
         <Toolbar>
-          {/* Menu Icon */}
           <IconButton
             color="inherit"
             edge="start"
-            sx={{ mr: 2 }}
-            aria-label="open drawer"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-
-          {/* Title */}
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{ flexGrow: 1, fontWeight: "bold" }}
-          >
+          <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: "bold" }}>
             Aiinfinite
           </Typography>
 
-          {/* Conditional Buttons */}
           {localStorage.getItem("authToken") ? (
             <Button
               variant="outlined"
               sx={{
                 color: "#fff",
                 borderColor: "#fff",
-                "&:hover": {
-                  backgroundColor: "#fff",
-                  color: "#1976d2",
-                },
+                "&:hover": { backgroundColor: "#fff", color: "#1976d2" },
               }}
               onClick={handleLogout}
             >
@@ -109,12 +126,9 @@ const DashboardLayout = ({ children }) => {
               sx={{
                 color: "#fff",
                 borderColor: "#fff",
-                "&:hover": {
-                  backgroundColor: "#fff",
-                  color: "#1976d2",
-                },
+                "&:hover": { backgroundColor: "#fff", color: "#1976d2" },
               }}
-              onClick={handleLogin}
+              onClick={() => navigate("/login")}
             >
               Login
             </Button>
@@ -124,12 +138,9 @@ const DashboardLayout = ({ children }) => {
               sx={{
                 color: "#fff",
                 borderColor: "#fff",
-                "&:hover": {
-                  backgroundColor: "#fff",
-                  color: "#1976d2",
-                },
+                "&:hover": { backgroundColor: "#fff", color: "#1976d2" },
               }}
-              onClick={handleSignup}
+              onClick={() => navigate("/signup")}
             >
               Signup
             </Button>
@@ -137,62 +148,52 @@ const DashboardLayout = ({ children }) => {
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar Section */}
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-            backgroundColor: "#1976d2", // Primary blue background
-            color: "#ffffff", // White text
-          },
-        }}
-      >
-        <Toolbar />
-        <List>
-          {/* Dashboard */}
-          <ListItem button component={Link} to="/dashboard">
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
+      {/* Sidebar Drawer */}
+      <Box component="nav">
+        {/* Mobile Drawer */}
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{ keepMounted: true }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              backgroundColor: "#1976d2",
+              color: "#ffffff",
+            },
+          }}
+        >
+          {drawerContent}
+        </Drawer>
 
-          {/* Orders */}
-          <ListItem button component={Link} to="/Taskssss">
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <TaskIcon />
-            </ListItemIcon>
-            <ListItemText primary="Task Manager" />
-          </ListItem>
+        {/* Desktop Drawer */}
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+              backgroundColor: "#1976d2",
+              color: "#ffffff",
+            },
+          }}
+          open
+        >
+          {drawerContent}
+        </Drawer>
+      </Box>
 
-          {/* Clients */}
-          <ListItem button component={Link} to="/clients">
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Clients" />
-          </ListItem>
-
-          <ListItem button component={Link} to="/profilepage">
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Profile" />
-          </ListItem>
-        </List>
-      </Drawer>
-
-      {/* Main Content Section */}
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          padding: 3,
-          marginTop: "64px", // Offset for fixed AppBar
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          marginTop: "64px", // AppBar offset
         }}
       >
         {children}
