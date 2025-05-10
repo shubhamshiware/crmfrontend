@@ -86,13 +86,15 @@ const DashboardLayout = ({ children }) => {
   );
 
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh" }}>
       {/* AppBar */}
       <AppBar
         position="fixed"
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
           backgroundColor: "#1976d2",
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
         }}
       >
         <Toolbar>
@@ -149,7 +151,10 @@ const DashboardLayout = ({ children }) => {
       </AppBar>
 
       {/* Sidebar Drawer */}
-      <Box component="nav">
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      >
         {/* Mobile Drawer */}
         <Drawer
           variant="temporary"
@@ -187,21 +192,20 @@ const DashboardLayout = ({ children }) => {
       </Box>
 
       {/* Main Content */}
-      {/* Main Content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          marginTop: "64px", // AppBar offset
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start", // Change to "center" if you want vertical centering too
-          minHeight: "calc(100vh - 64px)",
+          backgroundColor: "#f4f6f8",
           p: 3,
-          boxSizing: "border-box",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center", // Horizontally center the inner content
         }}
       >
+        {/* Toolbar spacer for fixed AppBar */}
+        <Toolbar />
+
         <Box sx={{ width: "100%", maxWidth: "1200px" }}>{children}</Box>
       </Box>
     </Box>
