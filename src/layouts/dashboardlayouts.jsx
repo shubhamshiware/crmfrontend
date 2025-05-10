@@ -187,15 +187,19 @@ const DashboardLayout = ({ children }) => {
       </Box>
 
       {/* Main Content */}
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           marginTop: "64px", // AppBar offset
           display: "flex",
           justifyContent: "center",
+          alignItems: "flex-start", // Change to "center" if you want vertical centering too
+          minHeight: "calc(100vh - 64px)",
+          p: 3,
+          boxSizing: "border-box",
         }}
       >
         <Box sx={{ width: "100%", maxWidth: "1200px" }}>{children}</Box>
