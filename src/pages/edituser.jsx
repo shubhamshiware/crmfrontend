@@ -36,7 +36,8 @@ const EditUserDetails = ({ userData, onUserUpdated }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("edit user started");
+    console.log("edit user started", userData._id);
+
     try {
       const response = await axios.put(
         "https://crmback-tjvw.onrender.com/auth/edituser", // fixed URL to match backend
