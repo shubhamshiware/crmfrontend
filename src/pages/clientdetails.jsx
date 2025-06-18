@@ -783,7 +783,7 @@ const ClientDetails = () => {
                   className: "no-pdf",
                 }}
               >
-                d
+                download
               </Button>
             </Box>
           </div>
