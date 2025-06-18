@@ -766,27 +766,8 @@ const ClientDetails = () => {
                 </Typography>
               </CardContent>
             </Card>
-
-            {/* Download Button */}
-            {/* <Box sx={{ textAlign: "center", mt: 4 }}>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<PictureAsPdfIcon />}
-                onClick={generatePDF}
-                sx={{
-                  borderRadius: "30px",
-                  px: 5,
-                  py: 1.5,
-                  fontWeight: "bold",
-                  boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
-                  className: "no-pdf",
-                }}
-              >
-                download
-              </Button>
-            </Box> */}
           </div>
+          {/* Download Button */}
           <Box sx={{ textAlign: "center", mt: 4 }}>
             <Button
               variant="contained"
@@ -798,7 +779,7 @@ const ClientDetails = () => {
                 px: 5,
                 py: 1.5,
                 fontWeight: "bold",
-                boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
+                boxShadow: "0 3px 10px rgba(0, 0, 0, 0.17)",
                 className: "no-pdf",
               }}
             >
