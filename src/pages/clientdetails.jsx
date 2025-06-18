@@ -696,72 +696,91 @@ const ClientDetails = () => {
             style={{ margin: "30px auto", maxWidth: 700 }}
           >
             <Card
-              elevation={4}
-              sx={{ borderRadius: 3, padding: 3, bgcolor: "#f5f5f5" }}
+              elevation={6}
+              sx={{
+                borderRadius: 4,
+                p: 4,
+                bgcolor: "#ffffff",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                border: "1px solid #e0e0e0",
+              }}
             >
               <CardContent>
-                {/* Company Name */}
-                <Typography
-                  variant="h4"
-                  align="center"
-                  color="primary"
-                  gutterBottom
-                  sx={{ fontWeight: 700 }}
+                {/* Header Section */}
+                <Box
+                  sx={{
+                    backgroundColor: "#1976d2",
+                    borderRadius: 2,
+                    py: 2,
+                    px: 3,
+                    mb: 3,
+                    color: "#fff",
+                    textAlign: "center",
+                  }}
                 >
-                  AiInfinite
-                </Typography>
-
-                {/* Report Title */}
-                <Typography variant="h6" align="center" gutterBottom>
-                  Monthly Performance Report
-                </Typography>
-
-                <Divider sx={{ my: 2 }} />
-
-                {/* Client Details */}
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="subtitle1">
-                    <strong>Client Name:</strong>
-                    {client.company}
+                  <Typography variant="h4" fontWeight="bold">
+                    AiInfinite
                   </Typography>
-                  <Typography variant="subtitle1">
-                    <strong>Package Amount:</strong> ₹{packageAmount}
+                  <Typography variant="subtitle1" sx={{ opacity: 0.9 }}>
+                    Monthly Performance Report
                   </Typography>
                 </Box>
 
-                {/* Metrics */}
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="body1">
-                    🔹 <strong>Leads Generated:</strong> {newLeads}
+                {/* Client Info */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    🧑‍💼 <strong>Client:</strong> {client.company}
                   </Typography>
-                  <Typography variant="body1">
-                    🔹 <strong>Leads Converted:</strong> {newFollowers}%
-                  </Typography>
-                  <Typography variant="body1">
-                    🔹 <strong>Engagement Rate:</strong> {newViews}%
-                  </Typography>
-                  <Typography variant="body1">
-                    🔹 <strong>Client through rate:</strong> {newCtr}%
+                  <Typography variant="subtitle1">
+                    💰 <strong>Package Amount:</strong> ₹{packageAmount}
                   </Typography>
                 </Box>
 
-                <Divider sx={{ my: 2 }} />
+                <Divider sx={{ mb: 2 }} />
+
+                {/* Metrics Section */}
+                <Box sx={{ mb: 3 }}>
+                  <Typography variant="body1" gutterBottom>
+                    📈 <strong>Leads Generated:</strong> {newLeads}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    🔁 <strong>Leads Converted:</strong> {newFollowers}%
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    💬 <strong>Engagement Rate:</strong> {newViews}%
+                  </Typography>
+                  <Typography variant="body1">
+                    🎯 <strong>Client Through Rate:</strong> {newCtr}%
+                  </Typography>
+                </Box>
+
+                <Divider sx={{ mb: 2 }} />
 
                 {/* Footer */}
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontStyle: "italic" }}
+                >
                   📅 Report Generated on: {new Date().toLocaleDateString()}
                 </Typography>
               </CardContent>
             </Card>
 
             {/* Download Button */}
-            <Box sx={{ textAlign: "center", mt: 3 }}>
+            <Box sx={{ textAlign: "center", mt: 4 }}>
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 startIcon={<PictureAsPdfIcon />}
                 onClick={generatePDF}
-                sx={{ borderRadius: 2, px: 4 }}
+                sx={{
+                  borderRadius: "30px",
+                  px: 5,
+                  py: 1.5,
+                  fontWeight: "bold",
+                  boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
+                }}
               >
                 Download PDF Report
               </Button>
