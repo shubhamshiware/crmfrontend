@@ -768,7 +768,7 @@ const ClientDetails = () => {
             </Card>
 
             {/* Download Button */}
-            <Box sx={{ textAlign: "center", mt: 4 }}>
+            {/* <Box sx={{ textAlign: "center", mt: 4 }}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -785,8 +785,26 @@ const ClientDetails = () => {
               >
                 download
               </Button>
-            </Box>
+            </Box> */}
           </div>
+          <Box sx={{ textAlign: "center", mt: 4 }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<PictureAsPdfIcon />}
+              onClick={generatePDF}
+              sx={{
+                borderRadius: "30px",
+                px: 5,
+                py: 1.5,
+                fontWeight: "bold",
+                boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
+                className: "no-pdf",
+              }}
+            >
+              download
+            </Button>
+          </Box>
         </Box>
       </Grid>
     </Box>
