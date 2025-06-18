@@ -780,6 +780,7 @@ const ClientDetails = () => {
                   py: 1.5,
                   fontWeight: "bold",
                   boxShadow: "0 3px 10px rgba(0,0,0,0.15)",
+                  className: "no-pdf",
                 }}
               >
                 d
