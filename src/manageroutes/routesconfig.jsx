@@ -17,6 +17,7 @@ import Attendance from "../attandence/attandence.jsx";
 import VideoCall from "../pages/meet.jsx";
 import ChatApp from "../pages/chat.jsx";
 import EditUserDetails from "../pages/edituser.jsx";
+import SalesGraph from "../pages/chart.jsx";
 
 const RoutesConfig = () => {
   return (
@@ -39,6 +40,7 @@ const RoutesConfig = () => {
       <Route path="/chat" element={<ChatApp />} />
       <Route path="/video-call/:room" element={<VideoCall />} />
       <Route path="/edituser" element={<EditUserDetails />} />
+      <Route path="/Chart" element={<SalesGraph />} />
     </Routes>
   );
 };
