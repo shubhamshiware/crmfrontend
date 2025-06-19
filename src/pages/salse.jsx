@@ -219,9 +219,9 @@ const Salsepage = () => {
         <Grid item xs={12} md={6}>
           <Card sx={{ p: 3 }}>
             <SalesGraph />
-            <Typography variant="h6" gutterBottom>
+            {/* <Typography variant="h6" gutterBottom>
               Sales Graph
-            </Typography>
+            </Typography> */}
             {/* <Line data={chartData} /> */}
           </Card>
         </Grid>
