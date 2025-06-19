@@ -27,6 +27,7 @@ import {
   LinearScale,
   PointElement,
 } from "chart.js";
+import SalesGraph from "./chart";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
@@ -217,6 +218,7 @@ const Salsepage = () => {
 
         <Grid item xs={12} md={6}>
           <Card sx={{ p: 3 }}>
+            <SalesGraph />
             <Typography variant="h6" gutterBottom>
               Sales Graph
             </Typography>
