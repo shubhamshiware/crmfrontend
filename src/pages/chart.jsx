@@ -58,7 +58,7 @@ const SalesGraph = () => {
           value: value,
         }
       );
-
+      console.log(response.data, "backend response of chart salse ");
       alert(response.data.message);
       setSalesValue("");
       fetchSalesData(); // refresh graph
