@@ -222,7 +222,7 @@ const Salsepage = () => {
             <Typography variant="h6" gutterBottom>
               Sales Graph
             </Typography>
-            <Line data={chartData} />
+            {/* <Line data={chartData} /> */}
           </Card>
         </Grid>
       </Grid>
