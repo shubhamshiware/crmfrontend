@@ -467,14 +467,14 @@ const ClientDetails = () => {
               Videos
             </Typography>
             <Grid container spacing={2}>
-              {Array.from({ length: 4 }, (_, i) => (
+              {(client.videos || []).map((video, i) => (
                 <Grid item xs={6} sm={3} key={`video-${i}`}>
                   <Box
                     display="flex"
                     flexDirection="column"
                     alignItems="center"
                     justifyContent="center"
-                    bgcolor={client.videos?.[i]?.isCompleted ? "green" : "red"}
+                    bgcolor={video.isCompleted ? "green" : "red"}
                     color="white"
                     height="150px"
                     borderRadius="8px"
@@ -489,14 +489,10 @@ const ClientDetails = () => {
                     }}
                   >
                     <Typography variant="body2" mb={1}>
-                      Video {i + 1}
+                      Video {video.videoNumber || i + 1}
                     </Typography>
                     <Select
-                      value={
-                        client.videos?.[i]?.isCompleted
-                          ? "Completed"
-                          : "Not Completed"
-                      }
+                      value={video.isCompleted ? "Completed" : "Not Completed"}
                       onChange={(e) =>
                         handleStatusChange(
                           "video",
