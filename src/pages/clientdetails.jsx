@@ -467,52 +467,60 @@ const ClientDetails = () => {
               Videos
             </Typography>
             <Grid container spacing={2}>
-              {(client.videos || []).map((video, i) => (
-                <Grid item xs={6} sm={3} key={`video-${i}`}>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    justifyContent="center"
-                    bgcolor={video.isCompleted ? "green" : "red"}
-                    color="white"
-                    height="150px"
-                    borderRadius="8px"
-                    boxShadow="0px 4px 10px rgba(0, 0, 0, 0.1)"
-                    p={2}
-                    textAlign="center"
-                    sx={{
-                      transition: "all 0.3s ease",
-                      "&:hover": {
-                        transform: "scale(1.05)",
-                      },
-                    }}
-                  >
-                    <Typography variant="body2" mb={1}>
-                      Video {video.videoNumber || i + 1}
-                    </Typography>
-                    <Select
-                      value={video.isCompleted ? "Completed" : "Not Completed"}
-                      onChange={(e) =>
-                        handleStatusChange(
-                          "video",
-                          i,
-                          e.target.value === "Completed"
-                        )
-                      }
+              {client.videos?.length > 0 ? (
+                client.videos.map((video, i) => (
+                  <Grid item xs={6} sm={3} key={`video-${i}`}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      justifyContent="center"
+                      bgcolor={video.isCompleted ? "green" : "red"}
+                      color="white"
+                      height="150px"
+                      borderRadius="8px"
+                      boxShadow="0px 4px 10px rgba(0, 0, 0, 0.1)"
+                      p={2}
+                      textAlign="center"
                       sx={{
-                        color: "white",
-                        "& .MuiSelect-icon": {
-                          color: "white",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          transform: "scale(1.05)",
                         },
                       }}
                     >
-                      <MenuItem value="Not Completed">Not Completed</MenuItem>
-                      <MenuItem value="Completed">Completed</MenuItem>
-                    </Select>
-                  </Box>
-                </Grid>
-              ))}
+                      <Typography variant="body2" mb={1}>
+                        Video {video.videoNumber || i + 1}
+                      </Typography>
+                      <Select
+                        value={
+                          video.isCompleted ? "Completed" : "Not Completed"
+                        }
+                        onChange={(e) =>
+                          handleStatusChange(
+                            "video",
+                            i,
+                            e.target.value === "Completed"
+                          )
+                        }
+                        sx={{
+                          color: "white",
+                          "& .MuiSelect-icon": {
+                            color: "white",
+                          },
+                        }}
+                      >
+                        <MenuItem value="Not Completed">Not Completed</MenuItem>
+                        <MenuItem value="Completed">Completed</MenuItem>
+                      </Select>
+                    </Box>
+                  </Grid>
+                ))
+              ) : (
+                <Typography variant="body2" ml={2}>
+                  No videos added yet.
+                </Typography>
+              )}
             </Grid>
           </Box>
 
