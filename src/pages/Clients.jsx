@@ -135,6 +135,12 @@ const Clients = () => {
       renderCell: (params) => (
         <Button
           color="primary"
+          variant="contained"
+          sx={{
+            backgroundColor: "#1976d2",
+            color: "#fff",
+            "&:hover": { backgroundColor: "#115293" },
+          }}
           onClick={() => navigate(`/clientdetails/${params.row.id}`)}
         >
           {params.value}
